@@ -6,6 +6,8 @@ import tseslint from 'typescript-eslint'
 import reactX from 'eslint-plugin-react-x'
 import reactDom from 'eslint-plugin-react-dom'
 import eslintPluginPrettierRecommended from 'eslint-plugin-prettier/recommended'
+import pluginRouter from '@tanstack/eslint-plugin-router'
+import pluginQuery from '@tanstack/eslint-plugin-query'
 
 export default tseslint.config(
   { ignores: ['dist'] },
@@ -25,6 +27,8 @@ export default tseslint.config(
       'react-refresh': reactRefresh,
       'react-x': reactX,
       'react-dom': reactDom,
+      '@tanstack/router': pluginRouter,
+      '@tanstack/query': pluginQuery,
     },
     rules: {
       ...reactHooks.configs.recommended.rules,
@@ -34,6 +38,8 @@ export default tseslint.config(
       ],
       ...reactX.configs['recommended-typescript'].rules,
       ...reactDom.configs.recommended.rules,
+      '@tanstack/router/create-route-property-order': 'error',
+      '@tanstack/query/exhaustive-deps': 'error',
     },
   },
 )

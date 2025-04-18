@@ -1,8 +1,14 @@
+import { Outlet } from "@tanstack/react-router";
+import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+
 function App() {
   return (
-    <h1 className="text-3xl font-bold text-red-200 underline">
-      Track Records App
-    </h1>
+    <>
+      <Outlet />
+      <ReactQueryDevtools buttonPosition="bottom-left" />
+      <TanStackRouterDevtools position="bottom-right" />
+    </>
   );
 }
 
