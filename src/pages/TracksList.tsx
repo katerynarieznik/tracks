@@ -1,13 +1,16 @@
 import { useGetTracks } from "@/queries";
+import { Button } from "@/components/ui/button";
+import { Header } from "@/components/Header";
 
 export function TracksList() {
   const { data } = useGetTracks();
 
   return (
     <div>
-      <h1 className="text-3xl font-bold text-teal-500">Tracks List</h1>
-      <p>This is the tracks list page.</p>
-      <pre>{JSON.stringify(data, null, 2)}</pre>
+      <Header />
+
+      {/* <Button onClick={() => console.log("Clicked!")}>Click me</Button> */}
+      {/* <pre>{JSON.stringify(data, null, 2)}</pre> */}
     </div>
   );
 }
