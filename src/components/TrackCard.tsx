@@ -24,7 +24,7 @@ export function TrackCard({ track }: TrackCardProps) {
         <p className="text-muted-foreground text-sm">
           {track.genres.length > 0 ? track.genres.join(", ") : null}
         </p>
-        <EditTrackButton slug={track.slug} />
+        <EditTrackButton track={track} />
       </div>
     </article>
   );

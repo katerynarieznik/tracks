@@ -4,12 +4,13 @@ import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 
 import { EditTrackForm } from "@/components/EditTrackForm";
+import { ITrack } from "@/types";
 
 interface EditTrackButtonProps {
-  slug: string;
+  track: ITrack;
 }
 
-export function EditTrackButton({ slug }: EditTrackButtonProps) {
+export function EditTrackButton({ track }: EditTrackButtonProps) {
   return (
     <Dialog
       onOpenChange={() => {
@@ -21,7 +22,7 @@ export function EditTrackButton({ slug }: EditTrackButtonProps) {
           <Pencil /> Edit
         </Button>
       </DialogTrigger>
-      <EditTrackForm trackSlug={slug} />
+      <EditTrackForm track={track} />
     </Dialog>
   );
 }

@@ -23,6 +23,7 @@ import { Input } from "@/components/ui/input";
 import { GenresSelect } from "./GenresSelect";
 import { useGetGenres, useGetTracks, useGetTrackBySlug } from "@/queries";
 import { useEditTrack } from "@/mutations";
+import { ITrack } from "@/types";
 
 const editTrackFormSchema = z.object({
   title: z.string().min(1, {
@@ -40,15 +41,14 @@ const editTrackFormSchema = z.object({
 });
 
 interface EditTrackFormProps {
-  trackSlug: string;
+  track: ITrack;
 }
 
-export function EditTrackForm({ trackSlug }: EditTrackFormProps) {
+export function EditTrackForm({ track }: EditTrackFormProps) {
   const { refetch: refetchTracksList } = useGetTracks();
   const { data: genresList } = useGetGenres();
-  const { data: track } = useGetTrackBySlug({ slug: trackSlug });
 
-  const editTrack = useEditTrack({ id: track?.id });
+  const editTrack = useEditTrack({ id: track.id });
 
   const genresOptions = genresList?.map((genre) => ({
     label: genre,
@@ -64,11 +64,11 @@ export function EditTrackForm({ trackSlug }: EditTrackFormProps) {
       genres: [],
     },
     values: {
-      title: track?.title ?? "",
-      artist: track?.artist ?? "",
-      album: track?.album,
-      genres: track?.genres,
-      coverImage: track?.coverImage,
+      title: track.title,
+      artist: track.artist,
+      album: track.album,
+      genres: track.genres,
+      coverImage: track.coverImage,
     },
   });
 
