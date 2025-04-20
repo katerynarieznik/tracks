@@ -2,7 +2,7 @@ import { useQuery, UseQueryResult } from "@tanstack/react-query";
 
 import { ITrack } from "@/types";
 
-const API_BASE_URL = "http://0.0.0.0:3000/api";
+import { API_BASE_URL } from "@/lib/constants";
 
 export const useGetTracks = (): UseQueryResult<ITrack[]> =>
   useQuery({

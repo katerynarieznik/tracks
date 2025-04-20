@@ -21,26 +21,33 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { GenresSelect } from "./GenresSelect";
-import { useGetGenres } from "@/queries";
+import { useGetGenres, useGetTracks } from "@/queries";
+import { useCreateTrack } from "@/mutations";
 
 const createTrackFormSchema = z.object({
   title: z.string().min(1, {
     message: "Title is required",
   }),
-  artist: z.string().min(1, {
-    message: "Artist is required",
-  }),
+  artist: z
+    .string()
+    .min(1, {
+      message: "Artist is required",
+    })
+    .optional(),
   album: z.string().optional(),
-  genres: z.array(z.string()).optional(),
-  cover: z.string().optional(),
+  genres: z.array(z.string()).max(3, { message: "You can select up to 3 genres" }).optional(),
+  coverImage: z.string().url().optional(),
 });
 
 export function CreateTrackModal() {
+  const getTracks = useGetTracks();
   const { data: genresList } = useGetGenres();
   const genresOptions = genresList?.map((genre) => ({
     label: genre,
     value: genre.toLowerCase(),
   }));
+
+  const createTrack = useCreateTrack();
 
   const form = useForm<z.infer<typeof createTrackFormSchema>>({
     resolver: zodResolver(createTrackFormSchema),
@@ -48,13 +55,22 @@ export function CreateTrackModal() {
       title: "",
       artist: "",
       album: "",
-      genres: [""],
-      cover: "",
+      genres: [],
     },
   });
 
   function onSubmit(values: z.infer<typeof createTrackFormSchema>) {
-    console.log(values);
+    createTrack.mutate(values, {
+      onSuccess: (data) => {
+        console.log("Track created successfully");
+        console.log("Created track data:", data);
+        form.reset();
+        getTracks.refetch();
+      },
+      onError: (error) => {
+        console.error("Error creating track:", error);
+      },
+    });
   }
 
   function onCancel() {
@@ -70,7 +86,7 @@ export function CreateTrackModal() {
         </DialogDescription>
       </DialogHeader>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)}>
+        <form id="createTrackForm" onSubmit={form.handleSubmit(onSubmit)}>
           <div className="grid gap-4 py-4">
             <FormField
               control={form.control}
@@ -130,7 +146,7 @@ export function CreateTrackModal() {
             />
             <FormField
               control={form.control}
-              name="cover"
+              name="coverImage"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Cover</FormLabel>
@@ -145,16 +161,16 @@ export function CreateTrackModal() {
               )}
             />
           </div>
-          <DialogFooter>
-            <DialogClose asChild>
-              <Button variant="ghost" type="button" onClick={onCancel}>
-                Cancel
-              </Button>
-            </DialogClose>
-            <Button type="submit">Save track</Button>
-          </DialogFooter>
         </form>
       </Form>
+      <DialogFooter>
+        <DialogClose asChild>
+          <Button variant="ghost" type="button" onClick={onCancel}>
+            Cancel
+          </Button>
+        </DialogClose>
+        <Button type="submit" form="createTrackForm">Save track</Button>
+      </DialogFooter>
     </DialogContent>
   );
 }
