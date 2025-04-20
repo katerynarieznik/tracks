@@ -1,5 +1,5 @@
 import { Logo } from "./Logo";
-import { SearchForm } from "./SearchForm";
+import { Search } from "./Search";
 import { AddTrackButton } from "./AddTrackButton";
 
 export function Header() {
@@ -7,7 +7,7 @@ export function Header() {
     <header className="border-b">
       <div className="flex h-16 items-center justify-between px-4">
         <Logo />
-        <SearchForm />
+        <Search />
         <AddTrackButton />
       </div>
     </header>

@@ -4,7 +4,7 @@ import { ITrack } from "@/types";
 
 const API_BASE_URL = "http://0.0.0.0:3000/api";
 
-export const useGetTracks = (): UseQueryResult<ITrack> =>
+export const useGetTracks = (): UseQueryResult<ITrack[]> =>
   useQuery({
     queryKey: ["tracks"],
     queryFn: async () => {

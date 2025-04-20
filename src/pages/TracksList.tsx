@@ -1,16 +1,20 @@
 import { useGetTracks } from "@/queries";
-import { Button } from "@/components/ui/button";
 import { Header } from "@/components/Header";
+import { TrackCard } from "@/components/TrackCard";
+import { Filters } from "@/components/Filters";
 
 export function TracksList() {
-  const { data } = useGetTracks();
+  const { data: tracks } = useGetTracks();
 
   return (
     <div>
       <Header />
-
-      {/* <Button onClick={() => console.log("Clicked!")}>Click me</Button> */}
-      {/* <pre>{JSON.stringify(data, null, 2)}</pre> */}
+      <main className="container mx-auto flex max-w-5xl flex-col px-4 py-8">
+        <Filters />
+        <div className="grid w-full grid-cols-4 gap-4">
+          {tracks?.map((track) => <TrackCard key={track.id} track={track} />)}
+        </div>
+      </main>
     </div>
   );
 }
