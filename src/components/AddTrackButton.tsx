@@ -2,7 +2,7 @@ import { Plus } from "lucide-react";
 
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { CreateTrackModal } from "@/modals/CreateTrackModal";
+import { CreateTrackModal } from "@/components/CreateTrackForm";
 
 export function AddTrackButton() {
   return (
