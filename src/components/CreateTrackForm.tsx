@@ -35,16 +35,19 @@ const createTrackFormSchema = z.object({
     })
     .optional(),
   album: z.string().optional(),
-  genres: z.array(z.string()).max(3, { message: "You can select up to 3 genres" }).optional(),
+  genres: z
+    .array(z.string())
+    .max(3, { message: "You can select up to 3 genres" })
+    .optional(),
   coverImage: z.string().url().optional(),
 });
 
-export function CreateTrackModal() {
+export function CreateTrackForm() {
   const getTracks = useGetTracks();
   const { data: genresList } = useGetGenres();
   const genresOptions = genresList?.map((genre) => ({
     label: genre,
-    value: genre.toLowerCase(),
+    value: genre,
   }));
 
   const createTrack = useCreateTrack();
@@ -169,7 +172,9 @@ export function CreateTrackModal() {
             Cancel
           </Button>
         </DialogClose>
-        <Button type="submit" form="createTrackForm">Save track</Button>
+        <Button type="submit" form="createTrackForm">
+          Save track
+        </Button>
       </DialogFooter>
     </DialogContent>
   );

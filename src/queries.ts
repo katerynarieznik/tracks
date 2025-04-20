@@ -31,3 +31,21 @@ export const useGetGenres = (): UseQueryResult<string[]> =>
       return response.json();
     },
   });
+
+export const useGetTrackBySlug = ({
+  slug,
+}: {
+  slug: string;
+}): UseQueryResult<ITrack> =>
+  useQuery({
+    queryKey: ["track", slug],
+    queryFn: async () => {
+      const response = await fetch(API_BASE_URL + `/tracks/${slug}`);
+
+      if (!response.ok) {
+        throw new Error("Something went wrong");
+      }
+
+      return response.json();
+    },
+  });

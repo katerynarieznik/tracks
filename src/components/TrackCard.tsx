@@ -1,3 +1,5 @@
+import { EditTrackButton } from "@/components/EditTrackButton";
+
 import { ITrack } from "@/types";
 
 interface TrackCardProps {
@@ -14,14 +16,15 @@ export function TrackCard({ track }: TrackCardProps) {
           className="aspect-square h-auto w-auto object-cover transition-all hover:scale-105"
         />
       </div>
-      <div className="space-y-1 text-sm">
+      <div className="space-y-1 text-base">
         <h3 className="leading-none font-medium">{track.title}</h3>
-        <p className="text-muted-foreground text-xs">
+        <p className="text-muted-foreground text-sm">
           {track.artist} {track.album ? `- ${track.album}` : null}
         </p>
-        <p className="text-muted-foreground text-xs">
+        <p className="text-muted-foreground text-sm">
           {track.genres.length > 0 ? track.genres.join(", ") : null}
         </p>
+        <EditTrackButton slug={track.slug} />
       </div>
     </article>
   );
