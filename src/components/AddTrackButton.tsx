@@ -1,11 +1,18 @@
 import { Plus } from "lucide-react";
 
+import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
+import { CreateTrackModal } from "@/modals/CreateTrackModal";
 
 export function AddTrackButton() {
   return (
-    <Button>
-      <Plus /> Add track
-    </Button>
+    <Dialog>
+      <DialogTrigger asChild>
+        <Button>
+          <Plus /> Add track
+        </Button>
+      </DialogTrigger>
+      <CreateTrackModal />
+    </Dialog>
   );
 }
