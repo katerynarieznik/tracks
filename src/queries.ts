@@ -11,9 +11,23 @@ export const useGetTracks = (): UseQueryResult<ITrack[]> =>
       const response = await fetch(API_BASE_URL + "/tracks");
 
       if (!response.ok) {
-        throw new Error("Network response was not ok");
+        throw new Error("Something went wrong");
       }
 
       return response.json().then((data) => data.data);
+    },
+  });
+
+export const useGetGenres = (): UseQueryResult<string[]> =>
+  useQuery({
+    queryKey: ["genres"],
+    queryFn: async () => {
+      const response = await fetch(API_BASE_URL + "/genres");
+
+      if (!response.ok) {
+        throw new Error("Something went wrong");
+      }
+
+      return response.json();
     },
   });

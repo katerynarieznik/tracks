@@ -6,7 +6,11 @@ import { CreateTrackModal } from "@/components/CreateTrackForm";
 
 export function AddTrackButton() {
   return (
-    <Dialog>
+    <Dialog
+      onOpenChange={() => {
+        // TODO: reset form
+      }}
+    >
       <DialogTrigger asChild>
         <Button>
           <Plus /> Add track
