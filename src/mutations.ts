@@ -48,3 +48,24 @@ export const useEditTrack = ({
     },
   });
 };
+
+export const useDeleteTrack = ({
+  id,
+}: {
+  id: string | undefined;
+}): UseMutationResult => {
+  return useMutation({
+    mutationFn: async () => {
+      const response = await fetch(API_BASE_URL + `/tracks/${id}`, {
+        method: "DELETE",
+      });
+
+      if (!response.ok) {
+        const data = await response.json();
+        throw new Error(data.error);
+      }
+
+      return "Track deleted successfully";
+    },
+  });
+};

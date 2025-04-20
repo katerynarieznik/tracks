@@ -1,4 +1,5 @@
 import { EditTrackButton } from "@/components/EditTrackButton";
+import { DeleteTrackButton } from "@/components//DeleteTrackButton";
 
 import { ITrack } from "@/types";
 
@@ -24,7 +25,10 @@ export function TrackCard({ track }: TrackCardProps) {
         <p className="text-muted-foreground text-sm">
           {track.genres.length > 0 ? track.genres.join(", ") : null}
         </p>
-        <EditTrackButton track={track} />
+        <div className="flex justify-between">
+          <EditTrackButton track={track} />
+          <DeleteTrackButton id={track.id} />
+        </div>
       </div>
     </article>
   );

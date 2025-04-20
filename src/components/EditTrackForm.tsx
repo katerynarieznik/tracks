@@ -21,7 +21,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { GenresSelect } from "./GenresSelect";
-import { useGetGenres, useGetTracks, useGetTrackBySlug } from "@/queries";
+import { useGetGenres, useGetTracks } from "@/queries";
 import { useEditTrack } from "@/mutations";
 import { ITrack } from "@/types";
 
