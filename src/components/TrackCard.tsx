@@ -1,7 +1,8 @@
 import { API_BASE_URL } from "@/lib/constants";
 
 import { EditTrackButton } from "@/components/EditTrackButton";
-import { UploadMusicFileButton } from "@/components/UploadMusicFileButton";
+import { UploadAudioFileButton } from "@/components/UploadAudioFileButton";
+import { DeleteAudioFileButton } from "@/components/DeleteAudioFileButton";
 import { DeleteTrackButton } from "@/components/DeleteTrackButton";
 import { AudioPlayer } from "@/components/AudioPlayer";
 import { ITrack } from "@/types";
@@ -33,7 +34,11 @@ export function TrackCard({ track }: TrackCardProps) {
         ) : null}
         <div className="flex justify-between">
           <EditTrackButton track={track} />
-          <UploadMusicFileButton id={track.id} />
+          {track.audioFile ? (
+            <DeleteAudioFileButton id={track.id} />
+          ) : (
+            <UploadAudioFileButton id={track.id} slug={track.slug} />
+          )}
           <DeleteTrackButton id={track.id} />
         </div>
       </div>

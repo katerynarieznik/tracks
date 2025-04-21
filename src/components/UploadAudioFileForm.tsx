@@ -31,7 +31,7 @@ const ACCEPTED_FILE_TYPES = [
   "audio/ogg",
 ];
 
-const uploadMusicFileFormSchema = z.object({
+const uploadAudioFileFormSchema = z.object({
   audioFile: z
     .instanceof(FileList)
     .refine((files) => files?.length == 1, "Audio file is required.")
@@ -45,20 +45,21 @@ const uploadMusicFileFormSchema = z.object({
     ),
 });
 
-export type UploadMusicFileFormSchema = z.infer<
-  typeof uploadMusicFileFormSchema
+export type UploadAudioFileFormSchema = z.infer<
+  typeof uploadAudioFileFormSchema
 >;
 
-export function UploadMusicFileForm({ id }: { id: string }) {
+export function UploadAudioFileForm({ id }: { id: string }) {
   const { refetch: refetchTracks } = useGetTracks();
+
   const uploadAudioFile = useUploadAudioFile({ id });
-  const form = useForm<z.infer<typeof uploadMusicFileFormSchema>>({
-    resolver: zodResolver(uploadMusicFileFormSchema),
+  const form = useForm<z.infer<typeof uploadAudioFileFormSchema>>({
+    resolver: zodResolver(uploadAudioFileFormSchema),
   });
 
   const fileRef = form.register("audioFile");
 
-  function onSubmit(values: z.infer<typeof uploadMusicFileFormSchema>) {
+  function onSubmit(values: z.infer<typeof uploadAudioFileFormSchema>) {
     console.log("Form values:", values);
 
     const formData = new FormData();

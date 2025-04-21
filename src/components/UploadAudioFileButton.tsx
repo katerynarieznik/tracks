@@ -2,9 +2,15 @@ import { FileMusic } from "lucide-react";
 
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { UploadMusicFileForm } from "@/components/UploadMusicFileForm";
+import { UploadAudioFileForm } from "@/components/UploadAudioFileForm";
 
-export function UploadMusicFileButton({ id }: { id: string }) {
+export function UploadAudioFileButton({
+  id,
+  slug,
+}: {
+  id: string;
+  slug: string;
+}) {
   return (
     <Dialog
       onOpenChange={() => {
@@ -16,7 +22,7 @@ export function UploadMusicFileButton({ id }: { id: string }) {
           <FileMusic /> <span className="sr-only">Upload</span>
         </Button>
       </DialogTrigger>
-      <UploadMusicFileForm id={id} />
+      <UploadAudioFileForm id={id} slug={slug} />
     </Dialog>
   );
 }

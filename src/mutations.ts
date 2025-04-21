@@ -84,3 +84,24 @@ export const useUploadAudioFile = ({
     },
   });
 };
+
+export const useDeleteAudioFile = ({
+  id,
+}: {
+  id: string;
+}): UseMutationResult => {
+  return useMutation({
+    mutationFn: async () => {
+      const response = await fetch(API_BASE_URL + `/tracks/${id}/file`, {
+        method: "DELETE",
+      });
+
+      if (!response.ok) {
+        const data = await response.json();
+        throw new Error(data.error);
+      }
+
+      return "Track's audio file deleted successfully";
+    },
+  });
+};
