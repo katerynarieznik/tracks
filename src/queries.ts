@@ -11,15 +11,30 @@ import { API_BASE_URL, TRACKS_PER_PAGE } from "@/lib/constants";
 export const useGetTracks = (
   page = 1,
   limit = TRACKS_PER_PAGE,
+  search?: string,
+  genre?: string,
 ): UseQueryResult<{
   data: ITrack[];
   meta: { limit: number; page: number; total: number; totalPages: number };
 }> => {
+  const getQueryParams = () => {
+    let queryString = "";
+    if (search) {
+      queryString += `&search=${search}`;
+    }
+    if (genre) {
+      queryString += `&genre=${genre}`;
+    }
+    return queryString;
+  };
+
   return useQuery({
-    queryKey: ["tracks", page, limit],
+    queryKey: ["tracks", page, limit, search, genre],
     queryFn: async () => {
+      const queryParams = getQueryParams();
+
       const response = await fetch(
-        API_BASE_URL + `/tracks?page=${page}&limit=${limit}`,
+        API_BASE_URL + `/tracks?page=${page}&limit=${limit}${queryParams}`,
       );
 
       if (!response.ok) {

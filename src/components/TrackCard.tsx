@@ -37,7 +37,7 @@ export function TrackCard({ track }: TrackCardProps) {
           {track.audioFile ? (
             <DeleteAudioFileButton id={track.id} />
           ) : (
-            <UploadAudioFileButton id={track.id} slug={track.slug} />
+            <UploadAudioFileButton id={track.id} />
           )}
           <DeleteTrackButton id={track.id} />
         </div>

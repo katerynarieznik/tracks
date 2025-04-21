@@ -4,13 +4,7 @@ import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { UploadAudioFileForm } from "@/components/UploadAudioFileForm";
 
-export function UploadAudioFileButton({
-  id,
-  slug,
-}: {
-  id: string;
-  slug: string;
-}) {
+export function UploadAudioFileButton({ id }: { id: string }) {
   return (
     <Dialog
       onOpenChange={() => {
@@ -22,7 +16,7 @@ export function UploadAudioFileButton({
           <FileMusic /> <span className="sr-only">Upload</span>
         </Button>
       </DialogTrigger>
-      <UploadAudioFileForm id={id} slug={slug} />
+      <UploadAudioFileForm id={id} />
     </Dialog>
   );
 }
