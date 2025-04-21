@@ -17,12 +17,12 @@ export function DeleteTrackButton({ id }: EditTrackButtonProps) {
     deleteTrack.mutate(id, {
       onSuccess: (data) => {
         console.log(data);
+        refetchTracksList();
       },
       onError: (error) => {
         console.error("Error deleting track:", error);
       },
     });
-    refetchTracksList();
   };
 
   return (
