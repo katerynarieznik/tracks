@@ -27,12 +27,12 @@ export function DeleteTrackButton({ id }: EditTrackButtonProps) {
 
   return (
     <Button
-      variant="destructive"
+      variant="outline"
       size="sm"
-      className="mt-1"
+      className="hover:bg-destructive hover:text-background mt-1"
       onClick={handleDeleteTrack}
     >
-      <Trash2 /> Delete
+      <Trash2 /> <span className="sr-only">Delete</span>
     </Button>
   );
 }

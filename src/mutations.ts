@@ -23,11 +23,7 @@ export const useCreateTrack = (): UseMutationResult =>
     },
   });
 
-export const useEditTrack = ({
-  id,
-}: {
-  id: string | undefined;
-}): UseMutationResult => {
+export const useEditTrack = ({ id }: { id: string }): UseMutationResult => {
   return useMutation({
     mutationFn: async (formData) => {
       const response = await fetch(API_BASE_URL + `/tracks/${id}`, {
@@ -49,11 +45,7 @@ export const useEditTrack = ({
   });
 };
 
-export const useDeleteTrack = ({
-  id,
-}: {
-  id: string | undefined;
-}): UseMutationResult => {
+export const useDeleteTrack = ({ id }: { id: string }): UseMutationResult => {
   return useMutation({
     mutationFn: async () => {
       const response = await fetch(API_BASE_URL + `/tracks/${id}`, {
@@ -66,6 +58,29 @@ export const useDeleteTrack = ({
       }
 
       return "Track deleted successfully";
+    },
+  });
+};
+
+export const useUploadAudioFile = ({
+  id,
+}: {
+  id: string;
+}): UseMutationResult<unknown, Error, FormData> => {
+  return useMutation({
+    mutationFn: async (formData) => {
+      const response = await fetch(API_BASE_URL + `/tracks/${id}/upload`, {
+        method: "POST",
+        body: formData,
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error);
+      }
+
+      return data;
     },
   });
 };

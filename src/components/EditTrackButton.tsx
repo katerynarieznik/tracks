@@ -19,7 +19,7 @@ export function EditTrackButton({ track }: EditTrackButtonProps) {
     >
       <DialogTrigger asChild>
         <Button variant="outline" size="sm" className="mt-1">
-          <Pencil /> Edit
+          <Pencil /> <span className="sr-only">Edit</span>
         </Button>
       </DialogTrigger>
       <EditTrackForm track={track} />
