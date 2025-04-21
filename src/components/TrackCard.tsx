@@ -2,7 +2,8 @@ import { API_BASE_URL } from "@/lib/constants";
 
 import { EditTrackButton } from "@/components/EditTrackButton";
 import { UploadMusicFileButton } from "@/components/UploadMusicFileButton";
-import { DeleteTrackButton } from "@/components//DeleteTrackButton";
+import { DeleteTrackButton } from "@/components/DeleteTrackButton";
+import { AudioPlayer } from "@/components/AudioPlayer";
 import { ITrack } from "@/types";
 
 interface TrackCardProps {
@@ -28,7 +29,7 @@ export function TrackCard({ track }: TrackCardProps) {
           {track.genres.length > 0 ? track.genres.join(", ") : null}
         </p>
         {track.audioFile ? (
-          <audio controls src={API_BASE_URL + `/files/${track.audioFile}`} />
+          <AudioPlayer src={API_BASE_URL + `/files/${track.audioFile}`} />
         ) : null}
         <div className="flex justify-between">
           <EditTrackButton track={track} />

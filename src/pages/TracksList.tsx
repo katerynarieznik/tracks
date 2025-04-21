@@ -4,14 +4,18 @@ import { TrackCard } from "@/components/TrackCard";
 import { Filters } from "@/components/Filters";
 
 export function TracksList() {
-  const { data: tracks } = useGetTracks();
+  const { data: tracks, isLoading } = useGetTracks();
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div>
       <Header />
       <main className="container mx-auto flex max-w-5xl flex-col px-4 py-8">
         <Filters />
-        <div className="grid w-full grid-cols-4 gap-4">
+        <div className="grid w-full grid-cols-3 gap-4">
           {tracks?.map((track) => <TrackCard key={track.id} track={track} />)}
         </div>
       </main>
