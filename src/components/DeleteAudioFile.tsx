@@ -14,15 +14,15 @@ interface EditTrackButtonProps {
   id: string;
 }
 
-export function DeleteAudioFileButton({ id }: EditTrackButtonProps) {
+export function DeleteAudioFile({ id }: EditTrackButtonProps) {
   const deleteAudioFile = useDeleteAudioFile({ id });
-  const { refetch: refetchTracksList } = useGetTracks();
+  const { refetch: refetchTracks } = useGetTracks();
 
   const handleDeleteTrack = async () => {
     deleteAudioFile.mutate(id, {
       onSuccess: (data) => {
         console.log(data);
-        refetchTracksList();
+        refetchTracks();
       },
       onError: (error) => {
         console.error("Error deleting track:", error);

@@ -64,7 +64,7 @@ export function TracksList() {
         </div>
         <div
           className={cn(
-            "grid w-full grid-cols-4 gap-4",
+            "grid w-full grid-cols-4 gap-x-5 gap-y-8",
             isTracksEmpty && "block",
           )}
         >

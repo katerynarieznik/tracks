@@ -36,6 +36,7 @@ export function Search({
         <Input
           id="search"
           data-testid="search-input"
+          type="search"
           placeholder="Search by title, artist or album"
           value={inputValue}
           onChange={(e) => setInputValue(e.target.value)}

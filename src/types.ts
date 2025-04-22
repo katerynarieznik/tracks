@@ -1,3 +1,8 @@
+import { z } from "zod";
+
+import { createEditTrackFormSchema } from "@/components/createEditTrack/formSchema";
+import { uploadAudioFileFormSchema } from "@/components/uploadAudio/formSchema";
+
 export interface ITrack {
   id: string;
   title: string;
@@ -10,3 +15,7 @@ export interface ITrack {
   createdAt: string;
   updatedAt: string;
 }
+
+export type TTrackForm = z.infer<typeof createEditTrackFormSchema>;
+
+export type TAudioFileForm = z.infer<typeof uploadAudioFileFormSchema>;

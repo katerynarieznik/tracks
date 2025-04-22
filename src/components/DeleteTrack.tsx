@@ -14,7 +14,7 @@ interface EditTrackButtonProps {
   id: string;
 }
 
-export function DeleteTrackButton({ id }: EditTrackButtonProps) {
+export function DeleteTrack({ id }: EditTrackButtonProps) {
   const deleteTrack = useDeleteTrack({ id });
   const { refetch: refetchTracksList } = useGetTracks();
 
