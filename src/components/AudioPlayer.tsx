@@ -71,7 +71,7 @@ export function AudioPlayer({ src }: AudioPlayerProps) {
   };
 
   return (
-    <div className="w-full py-4">
+    <div className="via-background/60 from-background/80 absolute inset-x-0 bottom-0 w-full bg-linear-to-t from-0% via-70% to-transparent to-100% px-1 py-4">
       <div className="space-y-4">
         <div className="flex items-center gap-4">
           <Button
@@ -98,7 +98,7 @@ export function AudioPlayer({ src }: AudioPlayerProps) {
             />
           </div>
           <div className="flex items-center justify-between">
-            <span className="text-muted-foreground text-xs">
+            <span className="text-secondary-foreground text-xs">
               {formatTime(progress)} / {formatTime(duration)}
             </span>
           </div>

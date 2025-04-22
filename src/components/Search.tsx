@@ -35,10 +35,11 @@ export function Search({
       <div className="relative">
         <Input
           id="search"
-          placeholder="Search by title, artist or album..."
+          data-testid="search-input"
+          placeholder="Search by title, artist or album"
           value={inputValue}
           onChange={(e) => setInputValue(e.target.value)}
-          className="bg-background focus-visible:ring-sidebar-ring h-8 w-full pl-8 shadow-none focus-visible:ring-2"
+          className="bg-background focus-visible:ring-sidebar-ring h-9 w-full pl-8 shadow-none focus-visible:ring-2"
         />
         <SearchIcon className="pointer-events-none absolute top-1/2 left-2 size-4 -translate-y-1/2 opacity-50 select-none" />
       </div>

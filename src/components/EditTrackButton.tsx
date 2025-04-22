@@ -1,7 +1,12 @@
 import { Pencil } from "lucide-react";
 
-import { Dialog, DialogTrigger } from "@/components/ui/dialog";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { Button } from "@/components/ui/button";
+import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 
 import { EditTrackForm } from "@/components/EditTrackForm";
 import { ITrack } from "@/types";
@@ -17,11 +22,18 @@ export function EditTrackButton({ track }: EditTrackButtonProps) {
         // TODO: reset form
       }}
     >
-      <DialogTrigger asChild>
-        <Button variant="outline" size="sm" className="mt-1">
-          <Pencil /> <span className="sr-only">Edit</span>
-        </Button>
-      </DialogTrigger>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <DialogTrigger asChild>
+            <Button variant="outline" size="sm" className="mt-1">
+              <Pencil /> <span className="sr-only">Edit track metadata</span>
+            </Button>
+          </DialogTrigger>
+        </TooltipTrigger>
+        <TooltipContent>
+          <p>Edit track metadata</p>
+        </TooltipContent>
+      </Tooltip>
       <EditTrackForm track={track} />
     </Dialog>
   );

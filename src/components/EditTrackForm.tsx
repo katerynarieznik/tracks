@@ -93,10 +93,8 @@ export function EditTrackForm({ track }: EditTrackFormProps) {
   return (
     <DialogContent>
       <DialogHeader>
-        <DialogTitle>Add Track</DialogTitle>
-        <DialogDescription>
-          You can add track metadata and upload the audio file later.
-        </DialogDescription>
+        <DialogTitle>Edit Track</DialogTitle>
+        <DialogDescription>You can edit track metadata.</DialogDescription>
       </DialogHeader>
       <Form {...form}>
         <form id="createTrackForm" onSubmit={form.handleSubmit(onSubmit)}>

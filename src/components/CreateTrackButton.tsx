@@ -12,7 +12,7 @@ export function CreateTrackButton() {
       }}
     >
       <DialogTrigger asChild>
-        <Button>
+        <Button data-testid="create-track-button">
           <Plus /> Create track
         </Button>
       </DialogTrigger>

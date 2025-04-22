@@ -3,6 +3,11 @@ import { Trash2 } from "lucide-react";
 import { useDeleteTrack } from "@/mutations";
 import { useGetTracks } from "@/queries";
 
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { Button } from "@/components/ui/button";
 
 interface EditTrackButtonProps {
@@ -26,13 +31,20 @@ export function DeleteTrackButton({ id }: EditTrackButtonProps) {
   };
 
   return (
-    <Button
-      variant="outline"
-      size="sm"
-      className="hover:bg-destructive hover:text-background mt-1"
-      onClick={handleDeleteTrack}
-    >
-      <Trash2 /> <span className="sr-only">Delete</span>
-    </Button>
+    <Tooltip>
+      <TooltipTrigger asChild>
+        <Button
+          variant="secondary"
+          size="sm"
+          className="hover:text-destructive mt-1"
+          onClick={handleDeleteTrack}
+        >
+          <Trash2 /> <span className="sr-only">Delete track</span>
+        </Button>
+      </TooltipTrigger>
+      <TooltipContent>
+        <p>Delete track</p>
+      </TooltipContent>
+    </Tooltip>
   );
 }

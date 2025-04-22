@@ -40,9 +40,13 @@ export function GenreFilter({
           aria-expanded={open}
           className="w-50 justify-between"
         >
-          {genre
-            ? genresList.find((item) => item.value === genre)?.label
-            : "Filter by genre"}
+          {genre ? (
+            genresList.find((item) => item.value === genre)?.label
+          ) : (
+            <span className="text-muted-foreground font-normal">
+              Filter by genre
+            </span>
+          )}
           <ChevronsUpDown className="opacity-50" />
         </Button>
       </PopoverTrigger>

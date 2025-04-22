@@ -6,7 +6,9 @@ export function Logo() {
     <Button asChild variant="ghost">
       <a href="/">
         <CassetteTape className="size-5" />
-        <span className="text-base font-semibold">Track Recs</span>
+        <h1 data-testid="tracks-header" className="text-base font-semibold">
+          Track Records
+        </h1>
       </a>
     </Button>
   );

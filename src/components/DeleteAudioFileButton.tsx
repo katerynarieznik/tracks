@@ -3,6 +3,11 @@ import { FileX } from "lucide-react";
 import { useDeleteAudioFile } from "@/mutations";
 import { useGetTracks } from "@/queries";
 
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { Button } from "@/components/ui/button";
 
 interface EditTrackButtonProps {
@@ -26,12 +31,20 @@ export function DeleteAudioFileButton({ id }: EditTrackButtonProps) {
   };
 
   return (
-    <Button
-      size="sm"
-      className="hover:bg-destructive hover:text-background mt-1"
-      onClick={handleDeleteTrack}
-    >
-      <FileX /> <span className="sr-only">Delete audio file</span>
-    </Button>
+    <Tooltip>
+      <TooltipTrigger asChild>
+        <Button
+          variant="secondary"
+          size="sm"
+          className="hover:text-destructive mt-1"
+          onClick={handleDeleteTrack}
+        >
+          <FileX /> <span className="sr-only">Delete audio file</span>
+        </Button>
+      </TooltipTrigger>
+      <TooltipContent>
+        <p>Delete audio file</p>
+      </TooltipContent>
+    </Tooltip>
   );
 }
