@@ -33,15 +33,19 @@ export function GenresSelect({
   onSelect,
 }: GenresSelectProps) {
   return (
-    <>
+    <div className="flex flex-col gap-2 overflow-scroll lg:flex-row lg:gap-1">
       <Popover>
         <PopoverTrigger asChild>
-          <Button variant="outline" size="sm" className="h-8 border-dashed">
+          <Button
+            variant="outline"
+            size="sm"
+            className="h-8 max-w-40 border-dashed"
+          >
             <PlusCircle />
             Select genres
           </Button>
         </PopoverTrigger>
-        <PopoverContent className="w-[200px] p-0" align="start">
+        <PopoverContent className="w-50 p-0" align="start">
           <Command>
             <CommandInput placeholder="Select genres" />
             <CommandList>
@@ -84,15 +88,12 @@ export function GenresSelect({
         </PopoverContent>
       </Popover>
       {selectedValues.length > 0 && (
-        <>
-          <Separator orientation="vertical" className="mx-2 h-4" />
-          <Badge
-            variant="secondary"
-            className="rounded-sm px-1 font-normal lg:hidden"
-          >
-            {selectedValues}
-          </Badge>
-          <div className="hidden space-x-1 lg:flex">
+        <div className="flex">
+          <Separator
+            orientation="vertical"
+            className="mx-2 hidden h-4 lg:block"
+          />
+          <div className="flex space-x-1">
             {options
               .filter((option) => selectedValues.includes(option.value))
               .map((option) => (
@@ -118,8 +119,8 @@ export function GenresSelect({
                 </Badge>
               ))}
           </div>
-        </>
+        </div>
       )}
-    </>
+    </div>
   );
 }
