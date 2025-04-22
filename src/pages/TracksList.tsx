@@ -1,4 +1,10 @@
 import React from "react";
+
+import { useGetTracks } from "@/queries";
+
+import { cn } from "@/lib/utils";
+import { TRACKS_PER_PAGE } from "@/lib/constants";
+
 import {
   Pagination,
   PaginationContent,
@@ -8,23 +14,25 @@ import {
   PaginationPrevious,
 } from "@/components/ui/pagination";
 
-import { useGetTracks } from "@/queries";
 import { Header } from "@/components/Header";
-import { TrackCard } from "@/components/TrackCard";
 import { Filters } from "@/components/Filters";
-import { TRACKS_PER_PAGE } from "@/lib/constants";
-import { cn } from "@/lib/utils";
+import { TrackCard } from "@/components/TrackCard";
+import { SortWithOrderSelect } from "@/components/SortWithOrderSelect";
 
 export function TracksList() {
   const [page, setPage] = React.useState(1);
   const [search, setSearch] = React.useState<string>("");
   const [genre, setGenre] = React.useState<string>("");
+  const [artist, setArtist] = React.useState<string>("");
+  const [sortOrder, setSortOrder] = React.useState<string>("");
 
   const { data, isLoading, isPlaceholderData } = useGetTracks(
     page,
     TRACKS_PER_PAGE,
     search,
     genre,
+    artist,
+    sortOrder,
   );
 
   const tracks = data?.data;
@@ -45,7 +53,15 @@ export function TracksList() {
     <div>
       <Header search={search} setSearch={setSearch} />
       <main className="container mx-auto flex max-w-5xl flex-col px-4 py-8">
-        <Filters genre={genre} setGenre={setGenre} />
+        <div className="flex w-full items-center justify-between pb-8">
+          <Filters
+            genre={genre}
+            artist={artist}
+            setGenre={setGenre}
+            setArtist={setArtist}
+          />
+          <SortWithOrderSelect setSortOrder={setSortOrder} />
+        </div>
         <div
           className={cn(
             "grid w-full grid-cols-4 gap-4",

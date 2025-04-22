@@ -1,6 +1,4 @@
-"use client";
-
-import * as React from "react";
+import React from "react";
 import { Check, ChevronsUpDown } from "lucide-react";
 
 import { cn } from "@/lib/utils";
@@ -20,7 +18,7 @@ import {
 } from "@/components/ui/popover";
 import { useGetGenres } from "@/queries";
 
-export function GenresFilter({
+export function GenreFilter({
   genre,
   setGenre,
 }: {
@@ -40,11 +38,11 @@ export function GenresFilter({
           variant="outline"
           role="combobox"
           aria-expanded={open}
-          className="w-[200px] justify-between"
+          className="w-50 justify-between"
         >
           {genre
             ? genresList.find((item) => item.value === genre)?.label
-            : "Select genre..."}
+            : "Filter by genre"}
           <ChevronsUpDown className="opacity-50" />
         </Button>
       </PopoverTrigger>

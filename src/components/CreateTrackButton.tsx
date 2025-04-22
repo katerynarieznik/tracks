@@ -4,7 +4,7 @@ import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { CreateTrackForm } from "@/components/CreateTrackForm";
 
-export function AddTrackButton() {
+export function CreateTrackButton() {
   return (
     <Dialog
       onOpenChange={() => {
@@ -13,7 +13,7 @@ export function AddTrackButton() {
     >
       <DialogTrigger asChild>
         <Button>
-          <Plus /> Add track
+          <Plus /> Create track
         </Button>
       </DialogTrigger>
       <CreateTrackForm />

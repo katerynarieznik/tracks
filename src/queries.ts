@@ -13,6 +13,8 @@ export const useGetTracks = (
   limit = TRACKS_PER_PAGE,
   search?: string,
   genre?: string,
+  artist?: string,
+  sortOrder?: string,
 ): UseQueryResult<{
   data: ITrack[];
   meta: { limit: number; page: number; total: number; totalPages: number };
@@ -25,11 +27,18 @@ export const useGetTracks = (
     if (genre) {
       queryString += `&genre=${genre}`;
     }
+    if (artist) {
+      queryString += `&artist=${artist}`;
+    }
+    if (sortOrder) {
+      const sortAndOrder = sortOrder.split("-");
+      queryString += `&sort=${sortAndOrder[0]}&order=${sortAndOrder[1]}`;
+    }
     return queryString;
   };
 
   return useQuery({
-    queryKey: ["tracks", page, limit, search, genre],
+    queryKey: ["tracks", page, limit, search, genre, artist, sortOrder],
     queryFn: async () => {
       const queryParams = getQueryParams();
 

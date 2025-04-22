@@ -1,17 +1,21 @@
-import { GenresFilter } from "@/components/GenresFilter";
+import { GenreFilter } from "@/components/GenreFilter";
+import { ArtistFilter } from "./ArtistFilter";
 
 export function Filters({
   genre,
+  artist,
   setGenre,
+  setArtist,
 }: {
   genre: string;
+  artist: string;
   setGenre: React.Dispatch<React.SetStateAction<string>>;
+  setArtist: React.Dispatch<React.SetStateAction<string>>;
 }) {
   return (
-    <div className="flex w-full items-center justify-between pb-8">
-      <div className="flex items-center gap-4">
-        <GenresFilter genre={genre} setGenre={setGenre} />
-      </div>
+    <div className="flex items-center gap-6">
+      <GenreFilter genre={genre} setGenre={setGenre} />
+      <ArtistFilter artist={artist} setArtist={setArtist} />
     </div>
   );
 }

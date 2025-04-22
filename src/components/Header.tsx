@@ -1,6 +1,6 @@
 import { Logo } from "./Logo";
 import { Search } from "./Search";
-import { AddTrackButton } from "./AddTrackButton";
+import { CreateTrackButton } from "./CreateTrackButton";
 
 export function Header({
   search,
@@ -14,7 +14,7 @@ export function Header({
       <div className="flex h-16 items-center justify-between px-4">
         <Logo />
         <Search search={search} setSearch={setSearch} />
-        <AddTrackButton />
+        <CreateTrackButton />
       </div>
     </header>
   );
