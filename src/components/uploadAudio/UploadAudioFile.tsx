@@ -1,4 +1,5 @@
 import React from "react";
+import { toast } from "sonner";
 import { FileMusic } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -33,6 +34,7 @@ import {
 } from "@/components/ui/tooltip";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { ToastMessage } from "@/components/ToastMessage";
 
 import { uploadAudioFileFormSchema } from "./formSchema";
 
@@ -42,7 +44,7 @@ export function UploadAudioFile({ id }: { id: string }) {
 
   const formId = "uploadMusicFileForm";
 
-  const { mutate: uploadAudioFile } = useUploadAudioFile({ id });
+  const { mutateAsync: uploadAudioFile } = useUploadAudioFile({ id });
   const { refetch: refetchTracks } = useGetTracks(tracksListState);
 
   const uploadAudioForm = useForm<TAudioFileForm>({
@@ -55,16 +57,32 @@ export function UploadAudioFile({ id }: { id: string }) {
     const formData = new FormData();
     formData.append("audioFile", values.audioFile[0]);
 
-    uploadAudioFile(formData, {
-      onSuccess: (data) => {
-        // TODO: use toaster to notify user
-        console.log("Audio file uploaded successfully.");
-        console.log("Data:", data);
-        setOpenDialog(false);
-        uploadAudioForm.reset();
+    const mutationPromise = uploadAudioFile(formData, {
+      onSuccess: () => {
         refetchTracks();
       },
+      onError: (error) => {
+        console.error("Error creating track:", error);
+      },
     });
+
+    toast.promise(mutationPromise, {
+      loading: "Uploading track's audio...",
+      success: (data) => (
+        <ToastMessage type="success">
+          Audio for track "{data.title} - {data.artist}" was uploaded
+          successfully!
+        </ToastMessage>
+      ),
+      error: (err) => (
+        <ToastMessage type="error">
+          Failed to upload audio file. {String(err.message)}
+        </ToastMessage>
+      ),
+    });
+
+    setOpenDialog(false);
+    uploadAudioForm.reset();
   }
 
   function handleCancel() {

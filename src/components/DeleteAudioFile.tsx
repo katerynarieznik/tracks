@@ -1,4 +1,5 @@
 import React from "react";
+import { toast } from "sonner";
 import { FileX } from "lucide-react";
 
 import { useDeleteAudioFile } from "@/mutations";
@@ -20,6 +21,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
+import { ToastMessage } from "@/components/ToastMessage";
 
 interface EditTrackButtonProps {
   id: string;
@@ -31,19 +33,35 @@ export function DeleteAudioFile({ id, slug }: EditTrackButtonProps) {
 
   const { tracksListState } = useTracksListState();
   const { data: track } = useGetTrackBySlug({ slug });
-  const { mutate: deleteAudioFile } = useDeleteAudioFile({ id });
+  const { mutateAsync: deleteAudioFile } = useDeleteAudioFile({ id });
   const { refetch: refetchTracks } = useGetTracks(tracksListState);
 
   const handleDeleteTrack = async () => {
-    deleteAudioFile(id, {
-      onSuccess: (data) => {
-        // TODO use toast for the result
+    const mutationPromise = deleteAudioFile(id, {
+      onSuccess: () => {
         refetchTracks();
       },
       onError: (error) => {
         console.error("Error deleting track:", error);
       },
     });
+
+    toast.promise(mutationPromise, {
+      loading: "Deleting track...",
+      success: () => (
+        <ToastMessage type="success">
+          "{track?.title} - {track?.artist}" audio file was deleted
+          successfully!
+        </ToastMessage>
+      ),
+      error: (err) => (
+        <ToastMessage type="error">
+          Failed to delete audio file. {String(err.message)}
+        </ToastMessage>
+      ),
+    });
+
+    setOpenDialog(false);
   };
 
   return (

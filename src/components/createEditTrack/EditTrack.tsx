@@ -1,4 +1,5 @@
 import React from "react";
+import { toast } from "sonner";
 import { Pencil } from "lucide-react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FormProvider, useForm } from "react-hook-form";
@@ -24,6 +25,7 @@ import {
 } from "@/components/ui/tooltip";
 import { Button } from "@/components/ui/button";
 
+import { ToastMessage } from "@/components/ToastMessage";
 import { createEditTrackFormSchema } from "./formSchema";
 import { CreateEditTrackForm } from "./CreateEditTrackForm";
 
@@ -37,7 +39,7 @@ export function EditTrack({ track }: EditTrackProps) {
 
   const formId = "editTrackForm";
 
-  const { mutate: editTrack } = useEditTrack({ id: track.id });
+  const { mutateAsync: editTrack } = useEditTrack({ id: track.id });
   const { refetch: refetchTracks } = useGetTracks(tracksListState);
 
   const editFormMethods = useForm<TTrackForm>({
@@ -63,19 +65,31 @@ export function EditTrack({ track }: EditTrackProps) {
   const isSubmitDisabled = !editFormMethods.formState.isDirty;
 
   function handleSubmit(values: TTrackForm) {
-    editTrack(values, {
-      onSuccess: (data) => {
-        // TODO: use toaster to notify user
-        console.log("Track edited successfully");
-        console.log("Edited track data:", data);
-        setOpenDialog(false);
-        editFormMethods.reset();
+    const mutationPromise = editTrack(values, {
+      onSuccess: () => {
         refetchTracks();
       },
       onError: (error) => {
-        console.error("Error creating track:", error);
+        console.error("Error editing track:", error);
       },
     });
+
+    toast.promise(mutationPromise, {
+      loading: "Creating track...",
+      success: (data) => (
+        <ToastMessage type="success">
+          Track "{data.title} - {data.artist}" was updated successfully!
+        </ToastMessage>
+      ),
+      error: (err) => (
+        <ToastMessage type="error">
+          Failed to update track. {String(err.message)}
+        </ToastMessage>
+      ),
+    });
+
+    setOpenDialog(false);
+    editFormMethods.reset();
   }
 
   function handleCancel() {

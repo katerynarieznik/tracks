@@ -1,4 +1,5 @@
 import React from "react";
+import { toast } from "sonner";
 import { Plus } from "lucide-react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FormProvider, useForm } from "react-hook-form";
@@ -21,6 +22,7 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 
+import { ToastMessage } from "@/components/ToastMessage";
 import { CreateEditTrackForm } from "./CreateEditTrackForm";
 
 export function CreateTrack() {
@@ -29,7 +31,7 @@ export function CreateTrack() {
 
   const formId = "createTrackForm";
 
-  const { mutate: createTrack } = useCreateTrack();
+  const { mutateAsync: createTrack } = useCreateTrack();
   const { refetch: refetchTracks } = useGetTracks(tracksListState);
 
   const createFormMethods = useForm<TTrackForm>({
@@ -44,19 +46,31 @@ export function CreateTrack() {
   });
 
   function handleSubmit(values: TTrackForm) {
-    createTrack(values, {
-      onSuccess: (data) => {
-        // TODO: use toaster to notify user
-        console.log("Track created successfully");
-        console.log("Created track data:", data);
-        setOpenDialog(false);
-        createFormMethods.reset();
+    const mutationPromise = createTrack(values, {
+      onSuccess: () => {
         refetchTracks();
       },
       onError: (error) => {
         console.error("Error creating track:", error);
       },
     });
+
+    toast.promise(mutationPromise, {
+      loading: "Creating track...",
+      success: (data) => (
+        <ToastMessage type="success">
+          Track "{data.title} - {data.artist}" was created successfully!
+        </ToastMessage>
+      ),
+      error: (err) => (
+        <ToastMessage type="error">
+          Failed to create track. {String(err.message)}
+        </ToastMessage>
+      ),
+    });
+
+    setOpenDialog(false);
+    createFormMethods.reset();
   }
 
   function handleCancel() {

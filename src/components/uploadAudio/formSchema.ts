@@ -4,8 +4,8 @@ const MAX_FILE_SIZE = 10485760; // 10MB in bytes
 const ACCEPTED_FILE_TYPES = [
   "audio/mpeg",
   "audio/wav",
-  "audio/flac",
-  "audio/ogg",
+  "audio/mp3",
+  "audio/x-wav",
 ];
 
 export const uploadAudioFileFormSchema = z.object({
@@ -18,6 +18,6 @@ export const uploadAudioFileFormSchema = z.object({
     )
     .refine(
       (files) => ACCEPTED_FILE_TYPES.includes(files?.[0]?.type),
-      "Only .mp3, .wav, .flac and .ogg files are accepted.",
+      "Only MP3 and WAV files are accepted.",
     ),
 });

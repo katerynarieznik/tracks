@@ -2,6 +2,7 @@ import React from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
+import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { TracksStateProvider } from "@/components/TracksStateProvider";
 
@@ -25,6 +26,7 @@ function App() {
           {location === "/tracks" ? <TracksList /> : null}
         </TooltipProvider>
       </TracksStateProvider>
+      <Toaster position="top-right" richColors />
       <ReactQueryDevtools />
     </QueryClientProvider>
   );

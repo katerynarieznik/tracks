@@ -1,8 +1,9 @@
 import { useMutation, UseMutationResult } from "@tanstack/react-query";
 
+import { ITrack } from "@/types";
 import { API_BASE_URL } from "@/lib/constants";
 
-export const useCreateTrack = (): UseMutationResult =>
+export const useCreateTrack = (): UseMutationResult<ITrack> =>
   useMutation({
     mutationFn: async (formData) => {
       const response = await fetch(API_BASE_URL + "/tracks", {
@@ -23,7 +24,11 @@ export const useCreateTrack = (): UseMutationResult =>
     },
   });
 
-export const useEditTrack = ({ id }: { id: string }): UseMutationResult => {
+export const useEditTrack = ({
+  id,
+}: {
+  id: string;
+}): UseMutationResult<ITrack> => {
   return useMutation({
     mutationFn: async (formData) => {
       const response = await fetch(API_BASE_URL + `/tracks/${id}`, {
@@ -66,7 +71,7 @@ export const useUploadAudioFile = ({
   id,
 }: {
   id: string;
-}): UseMutationResult<unknown, Error, FormData> => {
+}): UseMutationResult<ITrack, Error, FormData> => {
   return useMutation({
     mutationFn: async (formData) => {
       const response = await fetch(API_BASE_URL + `/tracks/${id}/upload`, {

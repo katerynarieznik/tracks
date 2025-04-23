@@ -1,4 +1,5 @@
 import React from "react";
+import { toast } from "sonner";
 import { Trash2 } from "lucide-react";
 
 import { useDeleteTrack } from "@/mutations";
@@ -21,6 +22,8 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 
+import { ToastMessage } from "@/components/ToastMessage";
+
 interface EditTrackButtonProps {
   id: string;
   slug: string;
@@ -31,20 +34,34 @@ export function DeleteTrack({ id, slug }: EditTrackButtonProps) {
 
   const { tracksListState } = useTracksListState();
   const { data: track } = useGetTrackBySlug({ slug });
-  const { mutate: deleteTrack } = useDeleteTrack({ id });
+  const { mutateAsync: deleteTrack } = useDeleteTrack({ id });
   const { refetch: refetchTracksList } = useGetTracks(tracksListState);
 
   const handleDeleteTrack = async () => {
-    deleteTrack(id, {
-      onSuccess: (data) => {
-        // TODO: use toast
-        console.log(data);
+    const mutationPromise = deleteTrack(id, {
+      onSuccess: () => {
         refetchTracksList();
       },
       onError: (error) => {
         console.error("Error deleting track:", error);
       },
     });
+
+    toast.promise(mutationPromise, {
+      loading: "Deleting track...",
+      success: () => (
+        <ToastMessage type="success">
+          Track "{track?.title} - {track?.artist}" was deleted successfully!
+        </ToastMessage>
+      ),
+      error: (err) => (
+        <ToastMessage type="error">
+          Failed to delete track. {String(err.message)}
+        </ToastMessage>
+      ),
+    });
+
+    setOpenDialog(false);
   };
 
   return (
