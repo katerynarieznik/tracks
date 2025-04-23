@@ -19,7 +19,8 @@ export const useGetTracks = (
       const response = await fetch(API_BASE_URL + `/tracks?${queryParams}`);
 
       if (!response.ok) {
-        throw new Error("Something went wrong");
+        const data = await response.json();
+        throw new Error(`Something went wrong. ${data.error} ${data.message}`);
       }
 
       return response.json();
@@ -34,7 +35,8 @@ export const useGetGenres = (): UseQueryResult<string[]> =>
       const response = await fetch(API_BASE_URL + "/genres");
 
       if (!response.ok) {
-        throw new Error("Something went wrong");
+        const data = await response.json();
+        throw new Error(`Something went wrong. ${data.error}  ${data.message}`);
       }
 
       return response.json();
@@ -52,7 +54,8 @@ export const useGetTrackBySlug = ({
       const response = await fetch(API_BASE_URL + `/tracks/${slug}`);
 
       if (!response.ok) {
-        throw new Error("Something went wrong");
+        const data = await response.json();
+        throw new Error(`Something went wrong. ${data.error}  ${data.message}`);
       }
 
       return response.json();

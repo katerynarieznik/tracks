@@ -8,7 +8,7 @@ import { TrackCardSkeleton } from "./TrackCardSkeleton";
 export function TracksList() {
   const { tracksListState } = useTracksListState();
 
-  const { data, isPending } = useGetTracks(tracksListState);
+  const { data, isPending, isError, error } = useGetTracks(tracksListState);
 
   const tracks = data?.data;
 
@@ -24,6 +24,14 @@ export function TracksList() {
           <TrackCardSkeleton key={index} />
         ))}
       </div>
+    );
+  }
+
+  if (isError) {
+    return (
+      <p className="text-destructive py-6 text-center text-base">
+        Error loading tracks: {error.message}
+      </p>
     );
   }
 
