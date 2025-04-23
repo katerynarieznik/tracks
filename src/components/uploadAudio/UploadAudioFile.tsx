@@ -91,6 +91,7 @@ export function UploadAudioFile({ id }: { id: string }) {
           <p>Upload audio file</p>
         </TooltipContent>
       </Tooltip>
+
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Upload Music File</DialogTitle>

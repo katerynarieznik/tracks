@@ -40,11 +40,11 @@ export function TrackCard({ track }: TrackCardProps) {
       <div className="flex justify-between">
         <EditTrack track={track} />
         {track.audioFile ? (
-          <DeleteAudioFile id={track.id} />
+          <DeleteAudioFile id={track.id} slug={track.slug} />
         ) : (
           <UploadAudioFile id={track.id} />
         )}
-        <DeleteTrack id={track.id} />
+        <DeleteTrack id={track.id} slug={track.slug} />
       </div>
     </article>
   );
