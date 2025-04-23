@@ -1,6 +1,6 @@
 import React from "react";
 import { toast } from "sonner";
-import { FileMusic } from "lucide-react";
+import { FilePlus } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
@@ -101,7 +101,7 @@ export function UploadAudioFile({ id }: { id: string }) {
         <TooltipTrigger asChild>
           <DialogTrigger asChild>
             <Button variant="outline" size="sm" className="mt-1">
-              <FileMusic /> <span className="sr-only">Upload audio file</span>
+              <FilePlus /> Audio
             </Button>
           </DialogTrigger>
         </TooltipTrigger>

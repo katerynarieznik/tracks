@@ -51,7 +51,7 @@ export function DeleteTrack({ id, slug }: EditTrackButtonProps) {
       loading: "Deleting track...",
       success: () => (
         <ToastMessage type="success">
-          Track "{track?.title} - {track?.artist}" was deleted successfully!
+          Track {track?.title} - {track?.artist} was deleted successfully!
         </ToastMessage>
       ),
       error: (err) => (
@@ -74,7 +74,7 @@ export function DeleteTrack({ id, slug }: EditTrackButtonProps) {
               size="sm"
               className="hover:text-destructive mt-1"
             >
-              <Trash2 /> <span className="sr-only">Delete track</span>
+              <Trash2 /> Track
             </Button>
           </DialogTrigger>
         </TooltipTrigger>
@@ -89,8 +89,8 @@ export function DeleteTrack({ id, slug }: EditTrackButtonProps) {
         </DialogHeader>
         <p className="text-secondary-foreground my-4 text-sm">
           This action cannot be undone. This will permanently delete your track{" "}
-          <span className="text-muted-foreground">
-            "{track?.title} - {track?.artist}"
+          <span className="font-bold">
+            {track?.title} - {track?.artist}
           </span>{" "}
           and remove it from our servers. Do you want to proceed?
         </p>

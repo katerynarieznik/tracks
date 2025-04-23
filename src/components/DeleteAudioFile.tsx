@@ -1,6 +1,6 @@
 import React from "react";
 import { toast } from "sonner";
-import { FileX } from "lucide-react";
+import { FileMinus } from "lucide-react";
 
 import { useDeleteAudioFile } from "@/mutations";
 import { useGetTracks, useGetTrackBySlug } from "@/queries";
@@ -74,7 +74,7 @@ export function DeleteAudioFile({ id, slug }: EditTrackButtonProps) {
               size="sm"
               className="hover:text-destructive mt-1"
             >
-              <FileX /> <span className="sr-only">Delete audio file</span>
+              <FileMinus /> Audio
             </Button>
           </DialogTrigger>
         </TooltipTrigger>
@@ -89,8 +89,8 @@ export function DeleteAudioFile({ id, slug }: EditTrackButtonProps) {
         <p className="text-secondary-foreground my-4 text-sm">
           This action cannot be undone. This will permanently delete your audio
           file{" "}
-          <span className="text-muted-foreground">
-            "{track?.title} - {track?.artist}"
+          <span className="font-bold">
+            {track?.title} - {track?.artist}
           </span>{" "}
           and remove it from our servers. Do you want to proceed?
         </p>
@@ -101,7 +101,7 @@ export function DeleteAudioFile({ id, slug }: EditTrackButtonProps) {
             </Button>
           </DialogClose>
           <Button variant="destructive" onClick={handleDeleteTrack}>
-            Delete file
+            Delete audio file
           </Button>
         </DialogFooter>
       </DialogContent>
