@@ -9,7 +9,7 @@ import { SortWithOrderSelect } from "@/components/SortWithOrderSelect";
 import { useTracksListState } from "@/hooks/useTracksListState";
 import { TracksPagination } from "@/components/TracksPagination";
 
-export function TracksList() {
+export function TracksPage() {
   const { tracksListState, setTracksListState } = useTracksListState();
 
   const { data, isLoading } = useGetTracks(tracksListState);

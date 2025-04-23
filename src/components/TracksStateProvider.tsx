@@ -1,10 +1,12 @@
 import React from "react";
 import { ITracksListState } from "@/types";
 
-export const TracksStateContext = React.createContext<{
+interface ITracksStateContext {
   tracksListState: ITracksListState;
   setTracksListState: React.Dispatch<React.SetStateAction<ITracksListState>>;
-}>({
+}
+
+export const TracksStateContext = React.createContext<ITracksStateContext>({
   tracksListState: {
     page: 1,
     search: "",

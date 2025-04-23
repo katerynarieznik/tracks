@@ -2,8 +2,13 @@ import React from "react";
 import { TracksStateContext } from "@/components/TracksStateProvider";
 
 export function useTracksListState() {
-  const { tracksListState, setTracksListState } =
-    React.useContext(TracksStateContext);
+  const context = React.useContext(TracksStateContext);
 
-  return { tracksListState, setTracksListState };
+  if (context === undefined) {
+    console.error(
+      "useTracksListState must be used within an TracksStateProvider",
+    );
+  }
+
+  return context;
 }

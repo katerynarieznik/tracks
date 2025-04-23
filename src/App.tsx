@@ -5,8 +5,9 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { TracksStateProvider } from "@/components/TracksStateProvider";
+import { AudioPlayerProvider } from "@/components/AudioPlayerProvider";
 
-import { TracksList } from "@/pages/TracksList";
+import { TracksPage } from "@/pages/TracksPage";
 
 const queryClient = new QueryClient();
 
@@ -22,9 +23,11 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <TracksStateProvider>
-        <TooltipProvider>
-          {location === "/tracks" ? <TracksList /> : null}
-        </TooltipProvider>
+        <AudioPlayerProvider>
+          <TooltipProvider>
+            {location === "/tracks" ? <TracksPage /> : null}
+          </TooltipProvider>
+        </AudioPlayerProvider>
       </TracksStateProvider>
       <Toaster position="top-right" richColors />
       <ReactQueryDevtools />

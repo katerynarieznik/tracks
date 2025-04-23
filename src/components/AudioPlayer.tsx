@@ -1,56 +1,43 @@
-import { useState, useRef, useEffect } from "react";
+import React from "react";
 import { Play, Pause } from "lucide-react";
+
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
 
+import { useAudioPlayer } from "@/hooks/useAudioPlayer";
+
 interface AudioPlayerProps {
   src: string;
+  trackId: string;
 }
 
-export function AudioPlayer({ src }: AudioPlayerProps) {
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [progress, setProgress] = useState(0);
-  const [duration, setDuration] = useState(0);
-  const audioRef = useRef<HTMLAudioElement | null>(null);
+export function AudioPlayer({ src, trackId }: AudioPlayerProps) {
+  const audioRef = React.useRef<HTMLAudioElement | null>(null);
+  const [progress, setProgress] = React.useState(0);
+  const [duration, setDuration] = React.useState(0);
 
-  useEffect(() => {
+  const { currentlyPlayingId, setCurrentlyPlayingId } = useAudioPlayer();
+
+  const isThisTrackPlaying = currentlyPlayingId === trackId;
+
+  // Auto play/pause based on currentlyPlayingId
+  React.useEffect(() => {
     const audio = audioRef.current;
     if (!audio) return;
 
-    const setAudioData = () => {
-      setDuration(audio.duration);
-    };
-
-    const updateProgress = () => {
-      setProgress(audio.currentTime);
-    };
-
-    const handleEnded = () => {
-      setIsPlaying(false);
-      setProgress(0);
-    };
-
-    audio.addEventListener("loadedmetadata", setAudioData);
-    audio.addEventListener("timeupdate", updateProgress);
-    audio.addEventListener("ended", handleEnded);
-
-    return () => {
-      audio.removeEventListener("loadedmetadata", setAudioData);
-      audio.removeEventListener("timeupdate", updateProgress);
-      audio.removeEventListener("ended", handleEnded);
-    };
-  }, []);
+    if (isThisTrackPlaying) {
+      audio.play();
+    } else {
+      audio.pause();
+    }
+  }, [isThisTrackPlaying]);
 
   const togglePlayPause = () => {
-    const audio = audioRef.current;
-    if (!audio) return;
-
-    if (isPlaying) {
-      audio.pause();
+    if (isThisTrackPlaying) {
+      setCurrentlyPlayingId(null);
     } else {
-      audio.play();
+      setCurrentlyPlayingId(trackId);
     }
-    setIsPlaying(!isPlaying);
   };
 
   const handleProgressChange = (value: number[]) => {
@@ -62,6 +49,25 @@ export function AudioPlayer({ src }: AudioPlayerProps) {
     setProgress(newTime);
   };
 
+  const handleLoadedMetadata = () => {
+    const audio = audioRef.current;
+    if (!audio) return;
+    setDuration(audio.duration);
+  };
+
+  const handleTimeUpdate = () => {
+    const audio = audioRef.current;
+    if (!audio) return;
+    setProgress(audio.currentTime);
+  };
+
+  const handleEnded = () => {
+    const audio = audioRef.current;
+    if (!audio) return;
+    setProgress(0);
+    setCurrentlyPlayingId(null);
+  };
+
   const formatTime = (time: number) => {
     if (isNaN(time)) return "0:00";
 
@@ -71,7 +77,10 @@ export function AudioPlayer({ src }: AudioPlayerProps) {
   };
 
   return (
-    <div className="via-background/60 from-background/80 absolute inset-x-0 bottom-0 w-full bg-linear-to-t from-0% via-70% to-transparent to-100% px-1 py-4">
+    <div
+      data-testid={`audio-player-${trackId}`}
+      className="via-background/60 from-background/80 absolute inset-x-0 bottom-0 w-full bg-linear-to-t from-0% via-70% to-transparent to-100% px-1 py-4"
+    >
       <div className="space-y-4">
         <div className="flex items-center gap-4">
           <Button
@@ -79,9 +88,10 @@ export function AudioPlayer({ src }: AudioPlayerProps) {
             size="icon"
             className="h-10 w-10 rounded-full"
             onClick={togglePlayPause}
-            aria-label={isPlaying ? "Pause" : "Play"}
+            aria-label={isThisTrackPlaying ? "Pause" : "Play"}
+            data-testid={`${isThisTrackPlaying ? "pause" : "play"}-button-${trackId}`}
           >
-            {isPlaying ? (
+            {isThisTrackPlaying ? (
               <Pause className="h-4 w-4" />
             ) : (
               <Play className="h-4 w-4" />
@@ -91,10 +101,11 @@ export function AudioPlayer({ src }: AudioPlayerProps) {
           <div className="flex-1">
             <Slider
               value={[progress]}
-              max={duration || 100}
-              step={0.1}
+              max={duration}
+              step={1}
               onValueChange={handleProgressChange}
               aria-label="Audio progress"
+              data-testid={`audio-progress-${trackId}`}
             />
           </div>
           <div className="flex items-center justify-between">
@@ -105,7 +116,14 @@ export function AudioPlayer({ src }: AudioPlayerProps) {
         </div>
       </div>
 
-      <audio ref={audioRef} src={src} className="hidden" />
+      <audio
+        ref={audioRef}
+        src={src}
+        className="hidden"
+        onLoadedMetadata={handleLoadedMetadata}
+        onTimeUpdate={handleTimeUpdate}
+        onEnded={handleEnded}
+      />
     </div>
   );
 }

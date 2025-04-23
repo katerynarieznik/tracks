@@ -24,7 +24,10 @@ export function TrackCard({ track }: TrackCardProps) {
             className="aspect-square h-auto w-auto object-cover transition-all hover:scale-105"
           />
           {track.audioFile ? (
-            <AudioPlayer src={API_BASE_URL + `/files/${track.audioFile}`} />
+            <AudioPlayer
+              src={API_BASE_URL + `/files/${track.audioFile}`}
+              trackId={track.id}
+            />
           ) : null}
         </div>
         <div className="space-y-1 text-base">
