@@ -1,61 +1,46 @@
 import { useGetTracks } from "@/queries";
 
-import { cn } from "@/lib/utils";
+import { useTracksListState } from "@/hooks/useTracksListState";
 
 import { Header } from "@/components/Header";
 import { Filters } from "@/components/Filters";
-import { TrackCard } from "@/components/TrackCard";
-import { SortWithOrderSelect } from "@/components/SortWithOrderSelect";
-import { useTracksListState } from "@/hooks/useTracksListState";
+import { TracksList } from "@/components/TracksList";
+import { SortOrderSelect } from "@/components/SortOrderSelect";
 import { TracksPagination } from "@/components/TracksPagination";
 
 export function TracksPage() {
   const { tracksListState, setTracksListState } = useTracksListState();
 
-  const { data, isLoading } = useGetTracks(tracksListState);
+  const { data, isFetching } = useGetTracks(tracksListState);
 
   const tracks = data?.data;
   const meta = data?.meta;
 
   const isTracksEmpty = !tracks || tracks.length === 0;
 
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
-
   return (
-    <div>
+    <div className="flex flex-col gap-4">
       <Header />
-      <main className="container mx-auto flex max-w-5xl flex-col px-4 py-8">
-        <div className="flex w-full items-center justify-between pb-8">
-          <Filters />
-          <SortWithOrderSelect />
-        </div>
-        <div
-          className={cn(
-            "grid w-full grid-cols-4 gap-x-5 gap-y-8",
-            isTracksEmpty && "block",
-          )}
-        >
-          {isTracksEmpty ? (
-            <p className="text-muted-foreground py-6 text-center text-base">
-              No tracks found
-            </p>
-          ) : (
-            tracks.map((track) => <TrackCard key={track.id} track={track} />)
-          )}
-        </div>
-        {!isTracksEmpty && (
-          <TracksPagination
-            currentPage={tracksListState.page}
-            totalPages={meta?.totalPages ?? 1}
-            isNextPage={tracksListState.page !== meta?.totalPages}
-            onPageChange={(page) =>
-              setTracksListState({ ...tracksListState, page })
-            }
-          />
-        )}
+      <section className="container mx-auto mt-4 flex w-full max-w-5xl items-center justify-between">
+        <Filters />
+        <SortOrderSelect />
+      </section>
+      <main
+        data-loading={isFetching}
+        className="container m-4 mx-auto flex max-w-5xl flex-col"
+      >
+        <TracksList />
       </main>
+      {!isTracksEmpty && (
+        <TracksPagination
+          currentPage={tracksListState.page}
+          totalPages={meta?.totalPages ?? 1}
+          isNextPage={tracksListState.page !== meta?.totalPages}
+          onPageChange={(page) =>
+            setTracksListState({ ...tracksListState, page })
+          }
+        />
+      )}
     </div>
   );
 }

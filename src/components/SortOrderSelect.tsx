@@ -9,7 +9,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-export function SortWithOrderSelect() {
+export function SortOrderSelect() {
   const { setTracksListState } = useTracksListState();
   return (
     <Select

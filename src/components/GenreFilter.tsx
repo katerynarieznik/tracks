@@ -20,13 +20,29 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { Button } from "@/components/ui/button";
+import { Loader } from "@/components/Loader";
 
 export function GenreFilter() {
   const [open, setOpen] = React.useState(false);
   const { tracksListState, setTracksListState } = useTracksListState();
 
-  const { data: genres } = useGetGenres();
+  const { data: genres, isLoading } = useGetGenres();
   const genresList = getGenresDropdownOptions(genres);
+
+  const renderGenreSelectTitle = () => {
+    if (isLoading) {
+      return <Loader>Loading genres...</Loader>;
+    }
+
+    if (tracksListState.genre) {
+      return genresList.find((item) => item.value === tracksListState.genre)
+        ?.label;
+    }
+
+    return (
+      <span className="text-muted-foreground font-normal">Filter by genre</span>
+    );
+  };
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -36,15 +52,11 @@ export function GenreFilter() {
           role="combobox"
           aria-expanded={open}
           className="w-50 justify-between"
+          disabled={isLoading}
+          aria-disabled={isLoading}
+          aria-loading={isLoading}
         >
-          {tracksListState.genre ? (
-            genresList.find((item) => item.value === tracksListState.genre)
-              ?.label
-          ) : (
-            <span className="text-muted-foreground font-normal">
-              Filter by genre
-            </span>
-          )}
+          {renderGenreSelectTitle()}
           <ChevronsUpDown className="opacity-50" />
         </Button>
       </PopoverTrigger>

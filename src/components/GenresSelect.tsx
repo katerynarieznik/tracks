@@ -1,6 +1,11 @@
 import { Check, PlusCircle, X } from "lucide-react";
+import { ControllerRenderProps } from "react-hook-form";
 
 import { cn } from "@/lib/utils";
+import { TTrackForm } from "@/types";
+import { useGetGenres } from "@/queries";
+import { getGenresDropdownOptions } from "@/lib/mappers";
+
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -17,21 +22,17 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { Separator } from "@/components/ui/separator";
-
-interface GenresSelectProps {
-  options: {
-    label: string;
-    value: string;
-  }[];
-  selectedValues: string[];
-  onSelect: (values: string[]) => void;
-}
+import { Loader } from "@/components/Loader";
 
 export function GenresSelect({
-  options,
-  selectedValues,
-  onSelect,
-}: GenresSelectProps) {
+  value = [],
+  onChange,
+  disabled,
+  ...props
+}: ControllerRenderProps<TTrackForm, "genres">) {
+  const { data: genresList, isLoading } = useGetGenres();
+  const genresOptions = getGenresDropdownOptions(genresList);
+
   return (
     <div className="flex flex-col gap-2 overflow-scroll lg:flex-row lg:gap-1">
       <Popover>
@@ -40,9 +41,19 @@ export function GenresSelect({
             variant="outline"
             size="sm"
             className="h-8 max-w-40 border-dashed"
+            disabled={disabled || isLoading}
+            aria-disabled={disabled || isLoading}
+            aria-loading={isLoading}
+            {...props}
           >
-            <PlusCircle />
-            Select genres
+            {isLoading ? (
+              <Loader>Loading genres...</Loader>
+            ) : (
+              <>
+                <PlusCircle />
+                Select genres
+              </>
+            )}
           </Button>
         </PopoverTrigger>
         <PopoverContent className="w-50 p-0" align="start">
@@ -51,20 +62,16 @@ export function GenresSelect({
             <CommandList>
               <CommandEmpty>No results found.</CommandEmpty>
               <CommandGroup>
-                {options.map((option) => {
-                  const isSelected = selectedValues.includes(option.value);
+                {genresOptions.map((option) => {
+                  const isSelected = value.includes(option.value);
                   return (
                     <CommandItem
                       key={option.value}
                       onSelect={() => {
                         if (isSelected) {
-                          onSelect(
-                            selectedValues.filter(
-                              (value) => value !== option.value,
-                            ),
-                          );
+                          onChange(value.filter((v) => v !== option.value));
                         } else {
-                          onSelect([...selectedValues, option.value]);
+                          onChange([...value, option.value]);
                         }
                       }}
                     >
@@ -87,15 +94,15 @@ export function GenresSelect({
           </Command>
         </PopoverContent>
       </Popover>
-      {selectedValues.length > 0 && (
+      {value.length > 0 && (
         <div className="flex">
           <Separator
             orientation="vertical"
             className="mx-2 hidden h-4 lg:block"
           />
           <div className="flex space-x-1">
-            {options
-              .filter((option) => selectedValues.includes(option.value))
+            {genresOptions
+              .filter((option) => value.includes(option.value))
               .map((option) => (
                 <Badge
                   variant="secondary"
@@ -107,11 +114,7 @@ export function GenresSelect({
                     variant="ghost"
                     className="text-muted-foreground hover:text-destructive size-2.5 cursor-pointer has-[>svg]:px-2"
                     onClick={() =>
-                      onSelect(
-                        selectedValues.filter(
-                          (value) => value !== option.value,
-                        ),
-                      )
+                      onChange(value.filter((v) => v !== option.value))
                     }
                   >
                     <X className="h-3 w-3" />

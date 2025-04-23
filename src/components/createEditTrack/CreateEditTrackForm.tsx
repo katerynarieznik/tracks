@@ -1,8 +1,6 @@
 import { useFormContext } from "react-hook-form";
 
 import { TTrackForm } from "@/types";
-import { useGetGenres } from "@/queries";
-import { getGenresDropdownOptions } from "@/lib/mappers";
 
 import {
   Form,
@@ -25,9 +23,6 @@ export function CreateEditTrackForm({
   formId,
   onSubmit,
 }: CreateTrackFormProps) {
-  const { data: genresList } = useGetGenres();
-  const genresOptions = getGenresDropdownOptions(genresList);
-
   const form = useFormContext<TTrackForm>();
 
   return (
@@ -80,11 +75,7 @@ export function CreateEditTrackForm({
               <FormItem>
                 <FormLabel>Genres</FormLabel>
                 <FormControl>
-                  <GenresSelect
-                    options={genresOptions}
-                    selectedValues={field.value ?? []}
-                    onSelect={field.onChange}
-                  />
+                  <GenresSelect {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>

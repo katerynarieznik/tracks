@@ -23,11 +23,12 @@ export function TracksPagination({
   const pagesList = Array.from({ length: totalPages ?? 1 }, (_, i) => i + 1);
 
   return (
-    <div className="py-10">
-      <Pagination>
+    <div className="pt-6 pb-10">
+      <Pagination data-testid="pagination">
         <PaginationContent>
           <PaginationItem>
             <PaginationPrevious
+              data-testid="pagination-prev"
               onClick={() => onPageChange(Math.max(currentPage - 1, 1))}
             />
           </PaginationItem>
@@ -43,6 +44,7 @@ export function TracksPagination({
           ))}
           <PaginationItem>
             <PaginationNext
+              data-testid="pagination-next"
               onClick={() => {
                 if (isNextPage) {
                   onPageChange(currentPage + 1);
