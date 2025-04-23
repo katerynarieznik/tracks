@@ -54,7 +54,6 @@ export function GenreFilter() {
           className="w-50 justify-between"
           disabled={isLoading}
           aria-disabled={isLoading}
-          aria-loading={isLoading}
         >
           {renderGenreSelectTitle()}
           <ChevronsUpDown className="opacity-50" />

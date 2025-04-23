@@ -1,59 +1,22 @@
-import {
-  useQuery,
-  UseQueryResult,
-  keepPreviousData,
-} from "@tanstack/react-query";
+import { useQuery, UseQueryResult } from "@tanstack/react-query";
 
-import { ITrack } from "@/types";
+import { ITrack, ITracksListState } from "@/types";
 
-import { API_BASE_URL, TRACKS_PER_PAGE } from "@/lib/constants";
+import { API_BASE_URL } from "@/lib/constants";
+import { createGetTracksQueryParams } from "@/lib/createGetTracksQueryParams";
 
-interface IUseGetTracksParams {
-  page?: number;
-  limit?: number;
-  search?: string;
-  genre?: string;
-  artist?: string;
-  sortOrder?: string;
-}
-
-export const useGetTracks = ({
-  page = 1,
-  limit = TRACKS_PER_PAGE,
-  search,
-  genre,
-  artist,
-  sortOrder,
-}: IUseGetTracksParams): UseQueryResult<{
+export const useGetTracks = (
+  params: ITracksListState,
+): UseQueryResult<{
   data: ITrack[];
   meta: { limit: number; page: number; total: number; totalPages: number };
 }> => {
-  const getQueryParams = () => {
-    let queryString = "";
-    if (search) {
-      queryString += `&search=${search}`;
-    }
-    if (genre) {
-      queryString += `&genre=${genre}`;
-    }
-    if (artist) {
-      queryString += `&artist=${artist}`;
-    }
-    if (sortOrder) {
-      const sortAndOrder = sortOrder.split("-");
-      queryString += `&sort=${sortAndOrder[0]}&order=${sortAndOrder[1]}`;
-    }
-    return queryString;
-  };
-
   return useQuery({
-    queryKey: ["tracks", page, limit, search, genre, artist, sortOrder],
+    queryKey: ["tracks", params],
     queryFn: async () => {
-      const queryParams = getQueryParams();
+      const queryParams = createGetTracksQueryParams(params);
 
-      const response = await fetch(
-        API_BASE_URL + `/tracks?page=${page}&limit=${limit}${queryParams}`,
-      );
+      const response = await fetch(API_BASE_URL + `/tracks?${queryParams}`);
 
       if (!response.ok) {
         throw new Error("Something went wrong");
@@ -61,7 +24,6 @@ export const useGetTracks = ({
 
       return response.json();
     },
-    placeholderData: keepPreviousData,
   });
 };
 

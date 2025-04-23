@@ -8,13 +8,13 @@ import { TrackCardSkeleton } from "./TrackCardSkeleton";
 export function TracksList() {
   const { tracksListState } = useTracksListState();
 
-  const { data, isLoading } = useGetTracks(tracksListState);
+  const { data, isPending } = useGetTracks(tracksListState);
 
   const tracks = data?.data;
 
   const isTracksEmpty = !tracks || tracks.length === 0;
 
-  if (isLoading) {
+  if (isPending) {
     return (
       <div
         data-testid="loading-tracks"

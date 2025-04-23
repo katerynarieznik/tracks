@@ -43,7 +43,6 @@ export function GenresSelect({
             className="h-8 max-w-40 border-dashed"
             disabled={disabled || isLoading}
             aria-disabled={disabled || isLoading}
-            aria-loading={isLoading}
             {...props}
           >
             {isLoading ? (

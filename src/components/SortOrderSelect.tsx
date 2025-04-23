@@ -16,7 +16,7 @@ export function SortOrderSelect() {
       onValueChange={(value) => {
         setTracksListState((prev) => ({
           ...prev,
-          sort: value,
+          sortOrder: value,
         }));
       }}
     >
