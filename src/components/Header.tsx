@@ -2,18 +2,12 @@ import { Logo } from "./Logo";
 import { Search } from "./Search";
 import { CreateTrack } from "@/components/createEditTrack/CreateTrack";
 
-export function Header({
-  search,
-  setSearch,
-}: {
-  search: string;
-  setSearch: React.Dispatch<React.SetStateAction<string>>;
-}) {
+export function Header() {
   return (
     <header className="bg-background sticky top-0 z-10 border-b">
       <div className="flex h-16 items-center justify-between px-4">
         <Logo />
-        <Search search={search} setSearch={setSearch} />
+        <Search />
         <CreateTrack />
       </div>
     </header>

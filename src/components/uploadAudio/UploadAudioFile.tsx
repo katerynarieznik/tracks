@@ -4,8 +4,9 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import { useGetTracks } from "@/queries";
-import { useUploadAudioFile } from "@/mutations";
 import { TAudioFileForm } from "@/types";
+import { useUploadAudioFile } from "@/mutations";
+import { useTracksListState } from "@/hooks/useTracksListState";
 
 import {
   Form,
@@ -37,11 +38,12 @@ import { uploadAudioFileFormSchema } from "./formSchema";
 
 export function UploadAudioFile({ id }: { id: string }) {
   const [openDialog, setOpenDialog] = React.useState(false);
+  const { tracksListState } = useTracksListState();
 
   const formId = "uploadMusicFileForm";
 
   const { mutate: uploadAudioFile } = useUploadAudioFile({ id });
-  const { refetch: refetchTracks } = useGetTracks();
+  const { refetch: refetchTracks } = useGetTracks(tracksListState);
 
   const uploadAudioForm = useForm<TAudioFileForm>({
     resolver: zodResolver(uploadAudioFileFormSchema),
@@ -96,7 +98,7 @@ export function UploadAudioFile({ id }: { id: string }) {
         </DialogHeader>
         <Form {...uploadAudioForm}>
           <form
-            id="uploadMusicFileForm"
+            id={formId}
             onSubmit={uploadAudioForm.handleSubmit(handleSubmit)}
           >
             <div className="grid gap-4 py-4">
@@ -129,7 +131,7 @@ export function UploadAudioFile({ id }: { id: string }) {
               Cancel
             </Button>
           </DialogClose>
-          <Button type="submit" form="uploadMusicFileForm">
+          <Button type="submit" form={formId}>
             Save file
           </Button>
         </DialogFooter>

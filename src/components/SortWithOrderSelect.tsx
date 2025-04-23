@@ -1,3 +1,5 @@
+import { useTracksListState } from "@/hooks/useTracksListState";
+
 import {
   Select,
   SelectContent,
@@ -7,13 +9,17 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-export function SortWithOrderSelect({
-  setSortOrder,
-}: {
-  setSortOrder: React.Dispatch<React.SetStateAction<string>>;
-}) {
+export function SortWithOrderSelect() {
+  const { setTracksListState } = useTracksListState();
   return (
-    <Select onValueChange={setSortOrder}>
+    <Select
+      onValueChange={(value) => {
+        setTracksListState((prev) => ({
+          ...prev,
+          sort: value,
+        }));
+      }}
+    >
       <SelectTrigger className="w-50">
         <SelectValue placeholder="Sort by ..." />
       </SelectTrigger>

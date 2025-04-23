@@ -1,31 +1,30 @@
 import React from "react";
 import { Search as SearchIcon } from "lucide-react";
 
+import { DEBOUNCE_TIMEOUT } from "@/lib/constants";
+import { useTracksListState } from "@/hooks/useTracksListState";
+
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
-import { DEBOUNCE_TIMEOUT } from "@/lib/constants";
-
-export function Search({
-  search,
-  setSearch,
-}: {
-  search: string;
-  setSearch: React.Dispatch<React.SetStateAction<string>>;
-}) {
+export function Search() {
   const [inputValue, setInputValue] = React.useState("");
+  const { tracksListState, setTracksListState } = useTracksListState();
 
   React.useEffect(() => {
     const timeoutId = setTimeout(() => {
-      if (inputValue !== search) {
-        setSearch(inputValue);
+      if (inputValue !== tracksListState.search) {
+        setTracksListState((prevState) => ({
+          ...prevState,
+          search: inputValue,
+        }));
       }
     }, DEBOUNCE_TIMEOUT);
 
     return () => {
       clearTimeout(timeoutId);
     };
-  }, [inputValue, search, setSearch]);
+  }, [inputValue, tracksListState]);
 
   return (
     <div className="min-w-80">

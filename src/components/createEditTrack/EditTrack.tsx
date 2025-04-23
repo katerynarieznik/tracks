@@ -3,9 +3,10 @@ import { Pencil } from "lucide-react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FormProvider, useForm } from "react-hook-form";
 
-import { ITrack, TTrackForm } from "@/types";
 import { useGetTracks } from "@/queries";
 import { useEditTrack } from "@/mutations";
+import { ITrack, TTrackForm } from "@/types";
+import { useTracksListState } from "@/hooks/useTracksListState";
 
 import {
   Dialog,
@@ -32,11 +33,12 @@ interface EditTrackProps {
 
 export function EditTrack({ track }: EditTrackProps) {
   const [openDialog, setOpenDialog] = React.useState(false);
+  const { tracksListState } = useTracksListState();
 
   const formId = "editTrackForm";
 
   const { mutate: editTrack } = useEditTrack({ id: track.id });
-  const { refetch: refetchTracks } = useGetTracks();
+  const { refetch: refetchTracks } = useGetTracks(tracksListState);
 
   const editFormMethods = useForm<TTrackForm>({
     resolver: zodResolver(createEditTrackFormSchema),

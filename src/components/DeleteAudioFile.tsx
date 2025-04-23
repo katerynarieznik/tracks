@@ -9,14 +9,16 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { Button } from "@/components/ui/button";
+import { useTracksListState } from "@/hooks/useTracksListState";
 
 interface EditTrackButtonProps {
   id: string;
 }
 
 export function DeleteAudioFile({ id }: EditTrackButtonProps) {
+  const { tracksListState } = useTracksListState();
   const deleteAudioFile = useDeleteAudioFile({ id });
-  const { refetch: refetchTracks } = useGetTracks();
+  const { refetch: refetchTracks } = useGetTracks(tracksListState);
 
   const handleDeleteTrack = async () => {
     deleteAudioFile.mutate(id, {

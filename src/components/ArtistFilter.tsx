@@ -1,15 +1,10 @@
-import React from "react";
+import { useTracksListState } from "@/hooks/useTracksListState";
 
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 
-export function ArtistFilter({
-  artist,
-  setArtist,
-}: {
-  artist: string;
-  setArtist: React.Dispatch<React.SetStateAction<string>>;
-}) {
+export function ArtistFilter() {
+  const { tracksListState, setTracksListState } = useTracksListState();
   return (
     <div className="min-w-50">
       <Label htmlFor="artistFilter" className="sr-only">
@@ -19,8 +14,13 @@ export function ArtistFilter({
         <Input
           id="artistFilter"
           placeholder="Filter by artist"
-          value={artist}
-          onChange={(e) => setArtist(e.target.value)}
+          value={tracksListState.artist}
+          onChange={(e) =>
+            setTracksListState((prevState) => ({
+              ...prevState,
+              artist: e.target.value,
+            }))
+          }
           className="bg-background focus-visible:ring-sidebar-ring h-9 w-full shadow-none focus-visible:ring-2"
         />
       </div>

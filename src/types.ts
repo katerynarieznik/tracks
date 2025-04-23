@@ -19,3 +19,11 @@ export interface ITrack {
 export type TTrackForm = z.infer<typeof createEditTrackFormSchema>;
 
 export type TAudioFileForm = z.infer<typeof uploadAudioFileFormSchema>;
+
+export interface ITracksListState {
+  page: number;
+  search: string;
+  genre: string;
+  artist: string;
+  sortOrder: string;
+}

@@ -2,7 +2,10 @@ import React from "react";
 import { Check, ChevronsUpDown } from "lucide-react";
 
 import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
+import { useGetGenres } from "@/queries";
+import { getGenresDropdownOptions } from "@/lib/mappers";
+import { useTracksListState } from "@/hooks/useTracksListState";
+
 import {
   Command,
   CommandEmpty,
@@ -16,20 +19,14 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { useGetGenres } from "@/queries";
+import { Button } from "@/components/ui/button";
 
-export function GenreFilter({
-  genre,
-  setGenre,
-}: {
-  genre: string;
-  setGenre: React.Dispatch<React.SetStateAction<string>>;
-}) {
+export function GenreFilter() {
   const [open, setOpen] = React.useState(false);
+  const { tracksListState, setTracksListState } = useTracksListState();
 
   const { data: genres } = useGetGenres();
-  const genresList =
-    genres?.map((item) => ({ value: item, label: item })) ?? [];
+  const genresList = getGenresDropdownOptions(genres);
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -40,8 +37,9 @@ export function GenreFilter({
           aria-expanded={open}
           className="w-50 justify-between"
         >
-          {genre ? (
-            genresList.find((item) => item.value === genre)?.label
+          {tracksListState.genre ? (
+            genresList.find((item) => item.value === tracksListState.genre)
+              ?.label
           ) : (
             <span className="text-muted-foreground font-normal">
               Filter by genre
@@ -61,7 +59,14 @@ export function GenreFilter({
                   key={item.value}
                   value={item.value}
                   onSelect={(currentValue) => {
-                    setGenre(currentValue === genre ? "" : currentValue);
+                    const newGenre =
+                      currentValue === tracksListState.genre
+                        ? ""
+                        : currentValue;
+                    setTracksListState((prevState) => ({
+                      ...prevState,
+                      genre: newGenre,
+                    }));
                     setOpen(false);
                   }}
                 >
@@ -69,7 +74,9 @@ export function GenreFilter({
                   <Check
                     className={cn(
                       "ml-auto",
-                      genre === item.value ? "opacity-100" : "opacity-0",
+                      tracksListState.genre === item.value
+                        ? "opacity-100"
+                        : "opacity-0",
                     )}
                   />
                 </CommandItem>

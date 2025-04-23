@@ -8,14 +8,23 @@ import { ITrack } from "@/types";
 
 import { API_BASE_URL, TRACKS_PER_PAGE } from "@/lib/constants";
 
-export const useGetTracks = (
+interface IUseGetTracksParams {
+  page?: number;
+  limit?: number;
+  search?: string;
+  genre?: string;
+  artist?: string;
+  sortOrder?: string;
+}
+
+export const useGetTracks = ({
   page = 1,
   limit = TRACKS_PER_PAGE,
-  search?: string,
-  genre?: string,
-  artist?: string,
-  sortOrder?: string,
-): UseQueryResult<{
+  search,
+  genre,
+  artist,
+  sortOrder,
+}: IUseGetTracksParams): UseQueryResult<{
   data: ITrack[];
   meta: { limit: number; page: number; total: number; totalPages: number };
 }> => {

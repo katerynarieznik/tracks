@@ -2,6 +2,7 @@ import { Trash2 } from "lucide-react";
 
 import { useDeleteTrack } from "@/mutations";
 import { useGetTracks } from "@/queries";
+import { useTracksListState } from "@/hooks/useTracksListState";
 
 import {
   Tooltip,
@@ -15,8 +16,9 @@ interface EditTrackButtonProps {
 }
 
 export function DeleteTrack({ id }: EditTrackButtonProps) {
+  const { tracksListState } = useTracksListState();
   const deleteTrack = useDeleteTrack({ id });
-  const { refetch: refetchTracksList } = useGetTracks();
+  const { refetch: refetchTracksList } = useGetTracks(tracksListState);
 
   const handleDeleteTrack = async () => {
     deleteTrack.mutate(id, {

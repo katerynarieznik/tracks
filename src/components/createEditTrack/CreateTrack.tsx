@@ -6,6 +6,7 @@ import { FormProvider, useForm } from "react-hook-form";
 import { TTrackForm } from "@/types";
 import { useGetTracks } from "@/queries";
 import { useCreateTrack } from "@/mutations";
+import { useTracksListState } from "@/hooks/useTracksListState";
 import { createEditTrackFormSchema } from "@/components/createEditTrack/formSchema";
 
 import {
@@ -24,11 +25,12 @@ import { CreateEditTrackForm } from "./CreateEditTrackForm";
 
 export function CreateTrack() {
   const [openDialog, setOpenDialog] = React.useState(false);
+  const { tracksListState } = useTracksListState();
 
   const formId = "createTrackForm";
 
   const { mutate: createTrack } = useCreateTrack();
-  const { refetch: refetchTracks } = useGetTracks();
+  const { refetch: refetchTracks } = useGetTracks(tracksListState);
 
   const createFormMethods = useForm<TTrackForm>({
     resolver: zodResolver(createEditTrackFormSchema),
