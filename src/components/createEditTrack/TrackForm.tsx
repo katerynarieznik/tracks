@@ -19,10 +19,7 @@ interface CreateTrackFormProps {
   onSubmit: (data: TTrackForm) => void;
 }
 
-export function CreateEditTrackForm({
-  formId,
-  onSubmit,
-}: CreateTrackFormProps) {
+export function TrackForm({ formId, onSubmit }: CreateTrackFormProps) {
   const form = useFormContext<TTrackForm>();
 
   return (

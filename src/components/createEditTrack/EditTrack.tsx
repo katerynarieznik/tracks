@@ -27,7 +27,7 @@ import { Button } from "@/components/ui/button";
 
 import { ToastMessage } from "@/components/ToastMessage";
 import { createEditTrackFormSchema } from "./formSchema";
-import { CreateEditTrackForm } from "./CreateEditTrackForm";
+import { TrackForm } from "./TrackForm";
 
 interface EditTrackProps {
   track: ITrack;
@@ -128,7 +128,7 @@ export function EditTrack({ track }: EditTrackProps) {
         </DialogHeader>
 
         <FormProvider {...editFormMethods}>
-          <CreateEditTrackForm formId={formId} onSubmit={handleSubmit} />
+          <TrackForm formId={formId} onSubmit={handleSubmit} />
         </FormProvider>
 
         <DialogFooter>

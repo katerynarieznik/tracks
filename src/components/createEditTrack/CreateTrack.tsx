@@ -23,7 +23,7 @@ import {
 import { Button } from "@/components/ui/button";
 
 import { ToastMessage } from "@/components/ToastMessage";
-import { CreateEditTrackForm } from "./CreateEditTrackForm";
+import { TrackForm } from "./TrackForm";
 
 export function CreateTrack() {
   const [openDialog, setOpenDialog] = React.useState(false);
@@ -100,7 +100,7 @@ export function CreateTrack() {
         </DialogHeader>
 
         <FormProvider {...createFormMethods}>
-          <CreateEditTrackForm formId={formId} onSubmit={handleSubmit} />
+          <TrackForm formId={formId} onSubmit={handleSubmit} />
         </FormProvider>
 
         <DialogFooter>
