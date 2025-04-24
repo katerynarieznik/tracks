@@ -16,6 +16,7 @@ export function Search() {
       if (inputValue !== tracksListState.search) {
         setTracksListState((prevState) => ({
           ...prevState,
+          page: 1,
           search: inputValue,
         }));
       }
