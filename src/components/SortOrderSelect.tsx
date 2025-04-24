@@ -10,10 +10,11 @@ import {
 } from "@/components/ui/select";
 
 export function SortOrderSelect() {
-  const { setTracksListState } = useTracksListState();
+  const { tracksListState, setTracksListState } = useTracksListState();
   return (
     <Select
       data-testid="sort-select"
+      value={tracksListState.sortOrder}
       onValueChange={(value) => {
         setTracksListState((prev) => ({
           ...prev,

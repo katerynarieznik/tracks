@@ -36,7 +36,7 @@ function App() {
         </AudioPlayerProvider>
       </TracksStateProvider>
       <Toaster position="top-right" richColors />
-      {/* <ReactQueryDevtools /> */}
+      <ReactQueryDevtools />
     </QueryClientProvider>
   );
 }

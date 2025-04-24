@@ -5,7 +5,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { FormProvider, useForm } from "react-hook-form";
 
 import { TTrackForm } from "@/types";
-import { useGetTracks } from "@/queries";
 import { useCreateTrack } from "@/mutations";
 import { useTracksListState } from "@/hooks/useTracksListState";
 import { trackFormSchema } from "@/lib/trackFormSchema";
@@ -24,15 +23,17 @@ import { Button } from "@/components/ui/button";
 
 import { ToastMessage } from "@/components/ToastMessage";
 import { TrackForm } from "./TrackForm";
+import { useQueryClient } from "@tanstack/react-query";
 
 export function CreateTrack() {
   const [openDialog, setOpenDialog] = React.useState(false);
-  const { tracksListState } = useTracksListState();
+  const { defaultTracksListState, setTracksListState } = useTracksListState();
 
   const formId = "createTrackForm";
 
   const { mutateAsync: createTrack } = useCreateTrack();
-  const { refetch: refetchTracks } = useGetTracks(tracksListState);
+
+  const { invalidateQueries } = useQueryClient();
 
   const createFormMethods = useForm<TTrackForm>({
     resolver: zodResolver(trackFormSchema),
@@ -48,7 +49,9 @@ export function CreateTrack() {
   function handleSubmit(values: TTrackForm) {
     const mutationPromise = createTrack(values, {
       onSuccess: () => {
-        refetchTracks();
+        // Reset filtering and sorting so that the new track appears at the top of the tracks list
+        setTracksListState(defaultTracksListState);
+        invalidateQueries({ queryKey: ["tracks", defaultTracksListState] });
       },
       onError: (error) => {
         console.error("Error creating track:", error);
@@ -68,6 +71,7 @@ export function CreateTrack() {
         </ToastMessage>
       ),
     });
+
     setOpenDialog(false);
     createFormMethods.reset();
   }

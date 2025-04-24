@@ -3,6 +3,7 @@ import { ITracksListState } from "@/types";
 
 interface ITracksStateContext {
   tracksListState: ITracksListState;
+  defaultTracksListState: ITracksListState;
   setTracksListState: React.Dispatch<React.SetStateAction<ITracksListState>>;
 }
 
@@ -11,11 +12,12 @@ const DEFAULT_TRACKS_LIST_STATE: ITracksListState = {
   search: "",
   genre: "",
   artist: "",
-  sortOrder: "",
+  sortOrder: "createdAt-desc",
 };
 
 export const TracksStateContext = React.createContext<ITracksStateContext>({
   tracksListState: DEFAULT_TRACKS_LIST_STATE,
+  defaultTracksListState: DEFAULT_TRACKS_LIST_STATE,
   setTracksListState: () => {},
 });
 
@@ -29,7 +31,11 @@ export function TracksStateProvider({
 
   return (
     <TracksStateContext.Provider
-      value={{ tracksListState, setTracksListState }}
+      value={{
+        tracksListState,
+        defaultTracksListState: DEFAULT_TRACKS_LIST_STATE,
+        setTracksListState,
+      }}
     >
       {children}
     </TracksStateContext.Provider>
