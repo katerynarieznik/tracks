@@ -40,6 +40,7 @@ export function GenresSelect({
           <Button
             variant="outline"
             size="sm"
+            type="button"
             className="h-8 max-w-40 border-dashed"
             disabled={disabled || isLoading}
             aria-disabled={disabled || isLoading}
@@ -110,6 +111,7 @@ export function GenresSelect({
                 >
                   {option.label}
                   <Button
+                    type="button"
                     variant="ghost"
                     className="text-muted-foreground hover:text-destructive size-2.5 cursor-pointer has-[>svg]:px-2"
                     onClick={() =>
