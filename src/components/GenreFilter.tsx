@@ -77,6 +77,7 @@ export function GenreFilter() {
                         : currentValue;
                     setTracksListState((prevState) => ({
                       ...prevState,
+                      page: 1,
                       genre: newGenre,
                     }));
                     setOpen(false);

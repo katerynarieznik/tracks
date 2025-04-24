@@ -19,6 +19,7 @@ export function ArtistFilter() {
           onChange={(e) =>
             setTracksListState((prevState) => ({
               ...prevState,
+              page: 1,
               artist: e.target.value,
             }))
           }
