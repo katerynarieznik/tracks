@@ -36,7 +36,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { ToastMessage } from "@/components/ToastMessage";
 
-import { uploadAudioFileFormSchema } from "./formSchema";
+import { audioFileFormSchema } from "@/lib/audioFileFormSchema";
 
 export function UploadAudioFile({ id }: { id: string }) {
   const [openDialog, setOpenDialog] = React.useState(false);
@@ -48,7 +48,7 @@ export function UploadAudioFile({ id }: { id: string }) {
   const { refetch: refetchTracks } = useGetTracks(tracksListState);
 
   const uploadAudioForm = useForm<TAudioFileForm>({
-    resolver: zodResolver(uploadAudioFileFormSchema),
+    resolver: zodResolver(audioFileFormSchema),
   });
 
   const fileRef = uploadAudioForm.register("audioFile");

@@ -1,6 +1,6 @@
 import { Logo } from "./Logo";
 import { Search } from "./Search";
-import { CreateTrack } from "@/components/createEditTrack/CreateTrack";
+import { CreateTrack } from "@/components/CreateTrack";
 
 export function Header() {
   return (

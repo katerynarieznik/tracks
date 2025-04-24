@@ -2,13 +2,14 @@ import React from "react";
 import { toast } from "sonner";
 import { Plus } from "lucide-react";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useQueryClient } from "@tanstack/react-query";
 import { FormProvider, useForm } from "react-hook-form";
 
 import { TTrackForm } from "@/types";
 import { useGetTracks } from "@/queries";
 import { useCreateTrack } from "@/mutations";
 import { useTracksListState } from "@/hooks/useTracksListState";
-import { createEditTrackFormSchema } from "@/components/createEditTrack/formSchema";
+import { trackFormSchema } from "@/lib/trackFormSchema";
 
 import {
   Dialog,
@@ -31,11 +32,12 @@ export function CreateTrack() {
 
   const formId = "createTrackForm";
 
+  const queryClient = useQueryClient();
   const { mutateAsync: createTrack } = useCreateTrack();
   const { refetch: refetchTracks } = useGetTracks(tracksListState);
 
   const createFormMethods = useForm<TTrackForm>({
-    resolver: zodResolver(createEditTrackFormSchema),
+    resolver: zodResolver(trackFormSchema),
     defaultValues: {
       title: "",
       artist: "",
@@ -48,13 +50,16 @@ export function CreateTrack() {
   function handleSubmit(values: TTrackForm) {
     const mutationPromise = createTrack(values, {
       onSuccess: () => {
-        refetchTracks();
+        //refetchTracks();
       },
       onError: (error) => {
         console.error("Error creating track:", error);
       },
     });
 
+    queryClient.invalidateQueries({
+      queryKey: ["tracks", tracksListState],
+    });
     toast.promise(mutationPromise, {
       loading: "Creating track...",
       success: (data) => (
@@ -68,7 +73,6 @@ export function CreateTrack() {
         </ToastMessage>
       ),
     });
-
     setOpenDialog(false);
     createFormMethods.reset();
   }

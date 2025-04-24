@@ -1,4 +1,8 @@
-import { useQuery, UseQueryResult } from "@tanstack/react-query";
+import {
+  useQuery,
+  UseQueryResult,
+  keepPreviousData,
+} from "@tanstack/react-query";
 
 import { ITrack, ITracksListState } from "@/types";
 
@@ -25,6 +29,7 @@ export const useGetTracks = (
 
       return response.json();
     },
+    placeholderData: keepPreviousData,
   });
 };
 

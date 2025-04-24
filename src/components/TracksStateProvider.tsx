@@ -6,14 +6,16 @@ interface ITracksStateContext {
   setTracksListState: React.Dispatch<React.SetStateAction<ITracksListState>>;
 }
 
+const DEFAULT_TRACKS_LIST_STATE: ITracksListState = {
+  page: 1,
+  search: "",
+  genre: "",
+  artist: "",
+  sortOrder: "",
+};
+
 export const TracksStateContext = React.createContext<ITracksStateContext>({
-  tracksListState: {
-    page: 1,
-    search: "",
-    genre: "",
-    artist: "",
-    sortOrder: "",
-  },
+  tracksListState: DEFAULT_TRACKS_LIST_STATE,
   setTracksListState: () => {},
 });
 
@@ -23,13 +25,7 @@ export function TracksStateProvider({
   children: React.ReactNode;
 }) {
   const [tracksListState, setTracksListState] =
-    React.useState<ITracksListState>({
-      page: 1,
-      search: "",
-      genre: "",
-      artist: "",
-      sortOrder: "",
-    });
+    React.useState<ITracksListState>(DEFAULT_TRACKS_LIST_STATE);
 
   return (
     <TracksStateContext.Provider

@@ -9,7 +9,13 @@ import { AudioPlayerProvider } from "@/components/AudioPlayerProvider";
 
 import { TracksPage } from "@/pages/TracksPage";
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 1000 * 60 * 5, // 5 minutes
+    },
+  },
+});
 
 function App() {
   const location = window.location.pathname;

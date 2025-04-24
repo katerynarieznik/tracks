@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const createEditTrackFormSchema = z.object({
+export const trackFormSchema = z.object({
   title: z.string().min(1, {
     message: "Title is required",
   }),

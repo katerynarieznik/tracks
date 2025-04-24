@@ -26,7 +26,7 @@ import {
 import { Button } from "@/components/ui/button";
 
 import { ToastMessage } from "@/components/ToastMessage";
-import { createEditTrackFormSchema } from "./formSchema";
+import { trackFormSchema } from "@/lib/trackFormSchema";
 import { TrackForm } from "./TrackForm";
 
 interface EditTrackProps {
@@ -43,7 +43,7 @@ export function EditTrack({ track }: EditTrackProps) {
   const { refetch: refetchTracks } = useGetTracks(tracksListState);
 
   const editFormMethods = useForm<TTrackForm>({
-    resolver: zodResolver(createEditTrackFormSchema),
+    resolver: zodResolver(trackFormSchema),
     defaultValues: {
       title: "",
       artist: "",

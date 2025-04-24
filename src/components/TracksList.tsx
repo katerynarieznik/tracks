@@ -1,3 +1,4 @@
+import { range } from "@/lib/utils";
 import { useGetTracks } from "@/queries";
 import { TRACKS_PER_PAGE } from "@/lib/constants";
 import { useTracksListState } from "@/hooks/useTracksListState";
@@ -8,20 +9,20 @@ import { TrackCardSkeleton } from "./TrackCardSkeleton";
 export function TracksList() {
   const { tracksListState } = useTracksListState();
 
-  const { data, isPending, isError, error } = useGetTracks(tracksListState);
+  const { data, isFetching, isError, error } = useGetTracks(tracksListState);
 
   const tracks = data?.data;
 
   const isTracksEmpty = !tracks || tracks.length === 0;
 
-  if (isPending) {
+  if (isFetching) {
     return (
       <div
         data-testid="loading-tracks"
         className="grid w-full grid-cols-4 gap-x-5 gap-y-8"
       >
-        {[...Array(TRACKS_PER_PAGE)].map((_, index) => (
-          <TrackCardSkeleton key={index} />
+        {range(TRACKS_PER_PAGE).map((num) => (
+          <TrackCardSkeleton key={num} />
         ))}
       </div>
     );

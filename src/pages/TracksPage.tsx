@@ -11,7 +11,7 @@ import { TracksPagination } from "@/components/TracksPagination";
 export function TracksPage() {
   const { tracksListState, setTracksListState } = useTracksListState();
 
-  const { data, isFetching } = useGetTracks(tracksListState);
+  const { data, isLoading } = useGetTracks(tracksListState);
 
   const tracks = data?.data;
   const meta = data?.meta;
@@ -26,7 +26,7 @@ export function TracksPage() {
         <SortOrderSelect />
       </section>
       <main
-        data-loading={isFetching}
+        data-loading={isLoading}
         className="container m-4 mx-auto flex max-w-5xl flex-col"
       >
         <TracksList />

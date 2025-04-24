@@ -8,7 +8,7 @@ const ACCEPTED_FILE_TYPES = [
   "audio/x-wav",
 ];
 
-export const uploadAudioFileFormSchema = z.object({
+export const audioFileFormSchema = z.object({
   audioFile: z
     .instanceof(FileList)
     .refine((files) => files?.length == 1, "Audio file is required.")

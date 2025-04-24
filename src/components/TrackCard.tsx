@@ -4,8 +4,10 @@ import { API_BASE_URL } from "@/lib/constants";
 import { AudioPlayer } from "@/components/AudioPlayer";
 import { DeleteTrack } from "@/components/DeleteTrack";
 import { DeleteAudioFile } from "@/components/DeleteAudioFile";
-import { EditTrack } from "@/components/createEditTrack/EditTrack";
-import { UploadAudioFile } from "@/components/uploadAudio/UploadAudioFile";
+import { EditTrack } from "@/components/EditTrack";
+import { UploadAudioFile } from "@/components/UploadAudioFile";
+
+import placeholder from "@/assets/image-placeholder.svg";
 
 interface TrackCardProps {
   track: ITrack;
@@ -20,9 +22,7 @@ export function TrackCard({ track }: TrackCardProps) {
       <div className="space-y-3">
         <div className="relative h-fit w-full overflow-hidden rounded-md">
           <img
-            src={
-              track.coverImage ? track.coverImage : "https://placehold.co/300"
-            }
+            src={track.coverImage ? track.coverImage : placeholder}
             alt={track.title}
             className="aspect-square h-auto w-auto object-cover transition-all hover:scale-105"
           />
