@@ -253,6 +253,7 @@ export const useDeleteAudioFile = ({
   const { tracksListState } = useTracksListState();
 
   return useMutation({
+    mutationKey: ["deleteAudioFile", id],
     mutationFn: async () => {
       const response = await fetch(API_BASE_URL + `/tracks/${id}/file`, {
         method: "DELETE",

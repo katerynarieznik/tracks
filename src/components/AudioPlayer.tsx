@@ -26,7 +26,13 @@ export function AudioPlayer({ trackId, audioFile }: AudioPlayerProps) {
     select: (mutation) => mutation.state.status,
   });
 
-  const isRefetchingTracksAfterUpload = isNewFileUploaded && !audioFile;
+  const [isFileDeleted] = useMutationState({
+    filters: { mutationKey: ["deleteAudioFile", trackId], status: "success" },
+    select: (mutation) => mutation.state.status,
+  });
+
+  const isRefetchingTracksAfterUpload =
+    isNewFileUploaded && !audioFile && !isFileDeleted;
   const isThisTrackPlaying = currentlyPlayingId === trackId;
 
   // Auto play/pause based on currentlyPlayingId
