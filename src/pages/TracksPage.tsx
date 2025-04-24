@@ -21,13 +21,13 @@ export function TracksPage() {
   return (
     <div className="flex flex-col gap-4">
       <Header />
-      <section className="container mx-auto mt-4 flex w-full max-w-5xl items-center justify-between">
+      <section className="container m-4 mx-auto flex w-full max-w-5xl flex-col items-center justify-between gap-4 px-4 lg:flex-row">
         <Filters />
         <SortOrderSelect />
       </section>
       <main
         data-loading={isLoading}
-        className="container m-4 mx-auto flex max-w-5xl flex-col"
+        className="container m-4 mx-auto flex max-w-5xl flex-col px-4"
       >
         <TracksList />
       </main>

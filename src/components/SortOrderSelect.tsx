@@ -21,7 +21,7 @@ export function SortOrderSelect() {
         }));
       }}
     >
-      <SelectTrigger className="w-50">
+      <SelectTrigger className="w-full min-w-50 lg:max-w-50">
         <SelectValue placeholder="Sort by ..." />
       </SelectTrigger>
       <SelectContent>

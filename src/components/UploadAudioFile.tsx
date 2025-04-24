@@ -106,7 +106,7 @@ export function UploadAudioFile({ id }: { id: string }) {
               size="sm"
               className="mt-1"
             >
-              <FilePlus /> Audio
+              <FilePlus /> <span className="sr-only lg:not-sr-only">Audio</span>
             </Button>
           </DialogTrigger>
         </TooltipTrigger>

@@ -27,7 +27,7 @@ export function Search() {
   }, [inputValue, tracksListState]);
 
   return (
-    <div className="min-w-80">
+    <div className="min-w-65">
       <Label htmlFor="search" className="sr-only">
         Search
       </Label>

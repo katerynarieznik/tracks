@@ -17,41 +17,39 @@ export function TrackCard({ track }: TrackCardProps) {
   return (
     <article
       data-testid={`track-item-${track.id}`}
-      className="flex flex-col justify-between space-y-3"
+      className="flex flex-col justify-between gap-3"
     >
-      <div className="space-y-3">
-        <div className="relative h-fit w-full overflow-hidden rounded-md">
-          <img
-            src={track.coverImage ? track.coverImage : placeholder}
-            alt={track.title}
-            className="aspect-square h-auto w-auto object-cover transition-all hover:scale-105"
+      <div className="relative overflow-hidden rounded-md">
+        <img
+          src={track.coverImage ? track.coverImage : placeholder}
+          alt={track.title}
+          className="aspect-square h-auto w-auto object-cover transition-all hover:scale-105"
+        />
+        {track.audioFile ? (
+          <AudioPlayer
+            src={API_BASE_URL + `/files/${track.audioFile}`}
+            trackId={track.id}
           />
-          {track.audioFile ? (
-            <AudioPlayer
-              src={API_BASE_URL + `/files/${track.audioFile}`}
-              trackId={track.id}
-            />
-          ) : null}
-        </div>
-        <div className="space-y-1 text-base">
-          <h2
-            data-testid={`track-item-${track.id}-title`}
-            className="leading-none font-medium"
-          >
-            {track.title}
-          </h2>
-          <p className="text-muted-foreground text-sm">
-            <span data-testid={`track-item-${track.id}-artist`}>
-              {track.artist}
-            </span>{" "}
-            {track.album ? `- ${track.album}` : null}
-          </p>
-          <p className="text-muted-foreground text-sm">
-            {track.genres.length > 0 ? track.genres.join(", ") : null}
-          </p>
-        </div>
+        ) : null}
       </div>
-      <div className="flex justify-between">
+      <div className="space-y-1 text-base">
+        <h2
+          data-testid={`track-item-${track.id}-title`}
+          className="leading-none font-medium"
+        >
+          {track.title}
+        </h2>
+        <p className="text-muted-foreground text-sm">
+          <span data-testid={`track-item-${track.id}-artist`}>
+            {track.artist}
+          </span>{" "}
+          {track.album ? `- ${track.album}` : null}
+        </p>
+        <p className="text-muted-foreground text-sm">
+          {track.genres.length > 0 ? track.genres.join(", ") : null}
+        </p>
+      </div>
+      <div className="flex justify-between pt-2">
         <EditTrack track={track} />
         {track.audioFile ? (
           <DeleteAudioFile id={track.id} slug={track.slug} />

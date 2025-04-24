@@ -52,7 +52,7 @@ export function GenreFilter() {
           variant="outline"
           role="combobox"
           aria-expanded={open}
-          className="w-50 justify-between"
+          className="w-full min-w-50 justify-between lg:max-w-50"
           disabled={isLoading}
           aria-disabled={isLoading}
         >

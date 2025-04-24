@@ -68,7 +68,7 @@ export function DeleteTrack({ id, slug }: EditTrackButtonProps) {
               size="sm"
               className="hover:text-destructive mt-1"
             >
-              <Trash2 /> Track
+              <Trash2 /> <span className="sr-only lg:not-sr-only">Track</span>
             </Button>
           </DialogTrigger>
         </TooltipTrigger>

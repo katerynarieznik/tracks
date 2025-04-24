@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input";
 export function ArtistFilter() {
   const { tracksListState, setTracksListState } = useTracksListState();
   return (
-    <div className="min-w-50">
+    <div className="w-full min-w-50 lg:max-w-50">
       <Label htmlFor="artistFilter" className="sr-only">
         Filter by artist
       </Label>

@@ -19,7 +19,7 @@ export function TracksList() {
     return (
       <div
         data-testid="loading-tracks"
-        className="grid w-full grid-cols-4 gap-x-5 gap-y-8"
+        className="grid grid-cols-2 gap-x-5 gap-y-8 md:grid-cols-4"
       >
         {range(TRACKS_PER_PAGE).map((num) => (
           <TrackCardSkeleton key={num} />
@@ -45,7 +45,7 @@ export function TracksList() {
   }
 
   return (
-    <div className="grid w-full grid-cols-4 gap-x-5 gap-y-8">
+    <div className="grid grid-cols-2 gap-x-5 gap-y-8 md:grid-cols-4">
       {tracks.map((track) => (
         <TrackCard key={track.id} track={track} />
       ))}

@@ -91,7 +91,7 @@ export function CreateTrack() {
     >
       <DialogTrigger asChild>
         <Button data-testid="create-track-button">
-          <Plus /> Create track
+          <Plus /> <span className="sr-only lg:not-sr-only">Create track</span>
         </Button>
       </DialogTrigger>
 

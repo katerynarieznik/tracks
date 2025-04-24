@@ -67,7 +67,8 @@ export function DeleteAudioFile({ id, slug }: EditTrackButtonProps) {
               size="sm"
               className="hover:text-destructive mt-1"
             >
-              <FileMinus /> Audio
+              <FileMinus />{" "}
+              <span className="sr-only lg:not-sr-only">Audio</span>
             </Button>
           </DialogTrigger>
         </TooltipTrigger>
