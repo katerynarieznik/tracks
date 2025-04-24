@@ -9,12 +9,14 @@ import { ITrack, ITracksListState } from "@/types";
 import { API_BASE_URL } from "@/lib/constants";
 import { createGetTracksQueryParams } from "@/lib/createGetTracksQueryParams";
 
-export const useGetTracks = (
-  params: ITracksListState,
-): UseQueryResult<{
+export interface GetTracksQueryResult {
   data: ITrack[];
   meta: { limit: number; page: number; total: number; totalPages: number };
-}> => {
+}
+
+export const useGetTracks = (
+  params: ITracksListState,
+): UseQueryResult<GetTracksQueryResult> => {
   return useQuery({
     queryKey: ["tracks", params],
     queryFn: async () => {

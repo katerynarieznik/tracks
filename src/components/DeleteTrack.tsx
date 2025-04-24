@@ -3,8 +3,7 @@ import { toast } from "sonner";
 import { Trash2 } from "lucide-react";
 
 import { useDeleteTrack } from "@/mutations";
-import { useGetTracks, useGetTrackBySlug } from "@/queries";
-import { useTracksListState } from "@/hooks/useTracksListState";
+import { useGetTrackBySlug } from "@/queries";
 
 import {
   Tooltip,
@@ -25,20 +24,11 @@ interface EditTrackButtonProps {
 export function DeleteTrack({ id, slug }: EditTrackButtonProps) {
   const [openDialog, setOpenDialog] = React.useState(false);
 
-  const { tracksListState } = useTracksListState();
   const { data: track } = useGetTrackBySlug({ slug });
   const { mutateAsync: deleteTrack } = useDeleteTrack({ id });
-  const { refetch: refetchTracksList } = useGetTracks(tracksListState);
 
   const handleDeleteTrack = async () => {
-    const mutationPromise = deleteTrack(id, {
-      onSuccess: () => {
-        refetchTracksList();
-      },
-      onError: (error) => {
-        console.error("Error deleting track:", error);
-      },
-    });
+    const mutationPromise = deleteTrack(id);
 
     toast.promise(mutationPromise, {
       loading: "Deleting track...",

@@ -4,10 +4,8 @@ import { Pencil } from "lucide-react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FormProvider, useForm } from "react-hook-form";
 
-import { useGetTracks } from "@/queries";
 import { useEditTrack } from "@/mutations";
 import { ITrack, TTrackForm } from "@/types";
-import { useTracksListState } from "@/hooks/useTracksListState";
 
 import {
   Dialog,
@@ -35,12 +33,10 @@ interface EditTrackProps {
 
 export function EditTrack({ track }: EditTrackProps) {
   const [openDialog, setOpenDialog] = React.useState(false);
-  const { tracksListState } = useTracksListState();
 
   const formId = "editTrackForm";
 
   const { mutateAsync: editTrack } = useEditTrack({ id: track.id });
-  const { refetch: refetchTracks } = useGetTracks(tracksListState);
 
   const editFormMethods = useForm<TTrackForm>({
     resolver: zodResolver(trackFormSchema),
@@ -65,17 +61,10 @@ export function EditTrack({ track }: EditTrackProps) {
   const isSubmitDisabled = !editFormMethods.formState.isDirty;
 
   function handleSubmit(values: TTrackForm) {
-    const mutationPromise = editTrack(values, {
-      onSuccess: () => {
-        refetchTracks();
-      },
-      onError: (error) => {
-        console.error("Error editing track:", error);
-      },
-    });
+    const mutationPromise = editTrack(values);
 
     toast.promise(mutationPromise, {
-      loading: "Creating track...",
+      loading: "Updating track...",
       success: (data) => (
         <ToastMessage type="success">
           Track "{data.title} - {data.artist}" was updated successfully!

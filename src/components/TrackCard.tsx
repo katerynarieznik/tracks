@@ -1,10 +1,10 @@
 import { ITrack } from "@/types";
-import { API_BASE_URL } from "@/lib/constants";
+import { cn } from "@/lib/utils";
 
+import { EditTrack } from "@/components/EditTrack";
 import { AudioPlayer } from "@/components/AudioPlayer";
 import { DeleteTrack } from "@/components/DeleteTrack";
 import { DeleteAudioFile } from "@/components/DeleteAudioFile";
-import { EditTrack } from "@/components/EditTrack";
 import { UploadAudioFile } from "@/components/UploadAudioFile";
 
 import placeholder from "@/assets/image-placeholder.svg";
@@ -17,7 +17,10 @@ export function TrackCard({ track }: TrackCardProps) {
   return (
     <article
       data-testid={`track-item-${track.id}`}
-      className="flex flex-col justify-between space-y-3"
+      className={cn(
+        "flex flex-col justify-between space-y-3",
+        track.id === "optimistic" && "opacity-65",
+      )}
     >
       <div className="space-y-3">
         <div className="relative h-fit w-full overflow-hidden rounded-md">
@@ -26,12 +29,7 @@ export function TrackCard({ track }: TrackCardProps) {
             alt={track.title}
             className="aspect-square h-full w-full object-cover transition-all hover:scale-105"
           />
-          {track.audioFile ? (
-            <AudioPlayer
-              src={API_BASE_URL + `/files/${track.audioFile}`}
-              trackId={track.id}
-            />
-          ) : null}
+          <AudioPlayer audioFile={track.audioFile} trackId={track.id} />
         </div>
         <div className="space-y-1 text-base">
           <h2

@@ -32,6 +32,7 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { Loader } from "@/components/Loader";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { ToastMessage } from "@/components/ToastMessage";
@@ -44,7 +45,8 @@ export function UploadAudioFile({ id }: { id: string }) {
 
   const formId = "uploadMusicFileForm";
 
-  const { mutateAsync: uploadAudioFile } = useUploadAudioFile({ id });
+  const { mutateAsync: uploadAudioFile, isPending: isUploading } =
+    useUploadAudioFile({ id });
   const { refetch: refetchTracks } = useGetTracks(tracksListState);
 
   const uploadAudioForm = useForm<TAudioFileForm>({
@@ -60,9 +62,12 @@ export function UploadAudioFile({ id }: { id: string }) {
     const mutationPromise = uploadAudioFile(formData, {
       onSuccess: () => {
         refetchTracks();
+        setOpenDialog(false);
+        uploadAudioForm.reset();
       },
       onError: (error) => {
         console.error("Error creating track:", error);
+        uploadAudioForm.setError("audioFile", { message: String(error) });
       },
     });
 
@@ -80,9 +85,6 @@ export function UploadAudioFile({ id }: { id: string }) {
         </ToastMessage>
       ),
     });
-
-    setOpenDialog(false);
-    uploadAudioForm.reset();
   }
 
   function handleCancel() {
@@ -155,8 +157,14 @@ export function UploadAudioFile({ id }: { id: string }) {
               Cancel
             </Button>
           </DialogClose>
-          <Button data-testid="submit-button" type="submit" form={formId}>
-            Save file
+          <Button
+            data-testid="submit-button"
+            type="submit"
+            form={formId}
+            disabled={isUploading}
+            aria-disabled={isUploading}
+          >
+            {isUploading ? <Loader>Uploading...</Loader> : "Upload audio"}
           </Button>
         </DialogFooter>
       </DialogContent>

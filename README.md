@@ -25,3 +25,8 @@ export const API_BASE_URL = "http://localhost:8000/api";
 export const TRACKS_PER_PAGE = 12;
 export const DEBOUNCE_TIMEOUT = 500;
 ```
+
+### Extra Tasks
+
+Implemented optimistic updates for track creation, editing, and deletion of both track and audio.
+There might be some edge cases, but I am running out of time.

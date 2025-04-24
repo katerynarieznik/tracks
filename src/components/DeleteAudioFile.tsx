@@ -3,8 +3,7 @@ import { toast } from "sonner";
 import { FileMinus } from "lucide-react";
 
 import { useDeleteAudioFile } from "@/mutations";
-import { useGetTracks, useGetTrackBySlug } from "@/queries";
-import { useTracksListState } from "@/hooks/useTracksListState";
+import { useGetTrackBySlug } from "@/queries";
 
 import {
   Tooltip,
@@ -24,20 +23,11 @@ interface EditTrackButtonProps {
 export function DeleteAudioFile({ id, slug }: EditTrackButtonProps) {
   const [openDialog, setOpenDialog] = React.useState(false);
 
-  const { tracksListState } = useTracksListState();
   const { data: track } = useGetTrackBySlug({ slug });
   const { mutateAsync: deleteAudioFile } = useDeleteAudioFile({ id });
-  const { refetch: refetchTracks } = useGetTracks(tracksListState);
 
   const handleDeleteAudio = async () => {
-    const mutationPromise = deleteAudioFile(id, {
-      onSuccess: () => {
-        refetchTracks();
-      },
-      onError: (error) => {
-        console.error("Error deleting audio file:", error);
-      },
-    });
+    const mutationPromise = deleteAudioFile(id);
 
     toast.promise(mutationPromise, {
       loading: "Deleting audio file...",

@@ -1,23 +1,32 @@
 import React from "react";
 import { Play, Pause } from "lucide-react";
+import { useMutationState } from "@tanstack/react-query";
+
+import { cn } from "@/lib/utils";
+import { API_BASE_URL } from "@/lib/constants";
+import { useAudioPlayer } from "@/hooks/useAudioPlayer";
 
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
 
-import { useAudioPlayer } from "@/hooks/useAudioPlayer";
-
 interface AudioPlayerProps {
-  src: string;
   trackId: string;
+  audioFile?: string;
 }
 
-export function AudioPlayer({ src, trackId }: AudioPlayerProps) {
+export function AudioPlayer({ trackId, audioFile }: AudioPlayerProps) {
   const audioRef = React.useRef<HTMLAudioElement | null>(null);
   const [progress, setProgress] = React.useState(0);
   const [duration, setDuration] = React.useState(0);
 
   const { currentlyPlayingId, setCurrentlyPlayingId } = useAudioPlayer();
 
+  const [isNewFileUploaded] = useMutationState({
+    filters: { mutationKey: ["uploadAudioFile", trackId], status: "success" },
+    select: (mutation) => mutation.state.status,
+  });
+
+  const isRefetchingTracksAfterUpload = isNewFileUploaded && !audioFile;
   const isThisTrackPlaying = currentlyPlayingId === trackId;
 
   // Auto play/pause based on currentlyPlayingId
@@ -76,12 +85,19 @@ export function AudioPlayer({ src, trackId }: AudioPlayerProps) {
     return `${minutes}:${seconds.toString().padStart(2, "0")}`;
   };
 
+  if (!audioFile && !isRefetchingTracksAfterUpload) return null;
+
   return (
     <div
       data-testid={`audio-player-${trackId}`}
       className="via-background/60 from-background/80 absolute inset-x-0 bottom-0 w-full bg-linear-to-t from-0% via-70% to-transparent to-100% px-1 py-4"
     >
-      <div className="space-y-4">
+      <div
+        className={cn(
+          "space-y-4",
+          isRefetchingTracksAfterUpload && "opacity-65",
+        )}
+      >
         <div className="flex items-center gap-4">
           <Button
             variant="outline"
@@ -90,6 +106,8 @@ export function AudioPlayer({ src, trackId }: AudioPlayerProps) {
             onClick={togglePlayPause}
             aria-label={isThisTrackPlaying ? "Pause" : "Play"}
             data-testid={`${isThisTrackPlaying ? "pause" : "play"}-button-${trackId}`}
+            disabled={isRefetchingTracksAfterUpload}
+            aria-disabled={isRefetchingTracksAfterUpload}
           >
             {isThisTrackPlaying ? (
               <Pause className="h-4 w-4" />
@@ -118,7 +136,7 @@ export function AudioPlayer({ src, trackId }: AudioPlayerProps) {
 
       <audio
         ref={audioRef}
-        src={src}
+        src={API_BASE_URL + `/files/${audioFile}`}
         className="hidden"
         onLoadedMetadata={handleLoadedMetadata}
         onTimeUpdate={handleTimeUpdate}

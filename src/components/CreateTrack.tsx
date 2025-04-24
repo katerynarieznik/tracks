@@ -6,7 +6,6 @@ import { FormProvider, useForm } from "react-hook-form";
 
 import { TTrackForm } from "@/types";
 import { useCreateTrack } from "@/mutations";
-import { useTracksListState } from "@/hooks/useTracksListState";
 import { trackFormSchema } from "@/lib/trackFormSchema";
 
 import {
@@ -23,15 +22,11 @@ import { Button } from "@/components/ui/button";
 
 import { ToastMessage } from "@/components/ToastMessage";
 import { TrackForm } from "./TrackForm";
-import { useQueryClient } from "@tanstack/react-query";
 
 export function CreateTrack() {
   const [openDialog, setOpenDialog] = React.useState(false);
 
   const { mutateAsync: createTrack } = useCreateTrack();
-  const { tracksListState } = useTracksListState();
-
-  const queryClient = useQueryClient();
 
   const formId = "createTrackForm";
 
@@ -47,16 +42,7 @@ export function CreateTrack() {
   });
 
   function handleSubmit(values: TTrackForm) {
-    const mutationPromise = createTrack(values, {
-      onSuccess: () => {
-        queryClient.refetchQueries({
-          queryKey: ["tracks", tracksListState],
-        });
-      },
-      onError: (error) => {
-        console.error("Error creating track:", error);
-      },
-    });
+    const mutationPromise = createTrack(values);
 
     toast.promise(mutationPromise, {
       loading: "Creating track...",

@@ -27,3 +27,8 @@ export interface ITracksListState {
   artist: string;
   sortOrder: string;
 }
+
+export interface OptimisticGetTracksQueryResultPartial {
+  data: Partial<ITrack>[];
+  meta: { limit: number; page: number; total: number; totalPages: number };
+}
