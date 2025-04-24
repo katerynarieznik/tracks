@@ -81,7 +81,7 @@ export const useCreateTrack = () => {
       // Return a context object with the snapshotted value
       return { previousTracks };
     },
-    onError: (err, newTrack, context) => {
+    onError: (_, __, context) => {
       queryClient.setQueryData(
         ["tracks", tracksListState],
         context?.previousTracks ?? {},
@@ -143,7 +143,7 @@ export const useEditTrack = ({ id }: { id: string }) => {
 
       return { previousTracks };
     },
-    onError: (err, newTrack, context) => {
+    onError: (_, __, context) => {
       queryClient.setQueryData(
         ["tracks", tracksListState],
         context?.previousTracks ?? {},
@@ -207,7 +207,7 @@ export const useDeleteTrack = ({ id }: { id: string }): UseMutationResult => {
 
       return { previousTracks };
     },
-    onError: (err, newTrack, context) => {
+    onError: (_, __, context) => {
       queryClient.setQueryData(
         ["tracks", tracksListState],
         context?.previousTracks ?? {},
@@ -293,7 +293,7 @@ export const useDeleteAudioFile = ({
 
       return { previousTracks };
     },
-    onError: (err, newTrack, context) => {
+    onError: (_, __, context) => {
       queryClient.setQueryData(
         ["tracks", tracksListState],
         context?.previousTracks ?? {},
