@@ -27,8 +27,8 @@ export function SortOrderSelect() {
       </SelectTrigger>
       <SelectContent>
         <SelectGroup>
-          <SelectItem value="createdAt-desc">Created At, Latest</SelectItem>
-          <SelectItem value="createdAt-asc">Created At, Oldest</SelectItem>
+          <SelectItem value="createdAt-desc">Created, Latest</SelectItem>
+          <SelectItem value="createdAt-asc">Created, Oldest</SelectItem>
           <SelectItem value="title-asc">Title, A-Z</SelectItem>
           <SelectItem value="title-desc">Title, Z-A</SelectItem>
           <SelectItem value="artist-asc">Artist, A-Z</SelectItem>

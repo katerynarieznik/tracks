@@ -27,13 +27,13 @@ import { useQueryClient } from "@tanstack/react-query";
 
 export function CreateTrack() {
   const [openDialog, setOpenDialog] = React.useState(false);
-  const { defaultTracksListState, setTracksListState } = useTracksListState();
-
-  const formId = "createTrackForm";
 
   const { mutateAsync: createTrack } = useCreateTrack();
+  const { tracksListState } = useTracksListState();
 
-  const { invalidateQueries } = useQueryClient();
+  const queryClient = useQueryClient();
+
+  const formId = "createTrackForm";
 
   const createFormMethods = useForm<TTrackForm>({
     resolver: zodResolver(trackFormSchema),
@@ -49,9 +49,9 @@ export function CreateTrack() {
   function handleSubmit(values: TTrackForm) {
     const mutationPromise = createTrack(values, {
       onSuccess: () => {
-        // Reset filtering and sorting so that the new track appears at the top of the tracks list
-        setTracksListState(defaultTracksListState);
-        invalidateQueries({ queryKey: ["tracks", defaultTracksListState] });
+        queryClient.refetchQueries({
+          queryKey: ["tracks", tracksListState],
+        });
       },
       onError: (error) => {
         console.error("Error creating track:", error);

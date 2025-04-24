@@ -65,4 +65,5 @@ export const useGetTrackBySlug = ({
 
       return response.json();
     },
+    enabled: !!slug,
   });

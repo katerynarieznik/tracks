@@ -5,6 +5,7 @@ import { API_BASE_URL } from "@/lib/constants";
 
 export const useCreateTrack = (): UseMutationResult<ITrack> =>
   useMutation({
+    mutationKey: ["createTrack"],
     mutationFn: async (formData) => {
       const response = await fetch(API_BASE_URL + "/tracks", {
         method: "POST",
@@ -30,6 +31,7 @@ export const useEditTrack = ({
   id: string;
 }): UseMutationResult<ITrack> => {
   return useMutation({
+    mutationKey: ["editTrack"],
     mutationFn: async (formData) => {
       const response = await fetch(API_BASE_URL + `/tracks/${id}`, {
         method: "PUT",
@@ -52,6 +54,7 @@ export const useEditTrack = ({
 
 export const useDeleteTrack = ({ id }: { id: string }): UseMutationResult => {
   return useMutation({
+    mutationKey: ["deleteTrack"],
     mutationFn: async () => {
       const response = await fetch(API_BASE_URL + `/tracks/${id}`, {
         method: "DELETE",
