@@ -48,6 +48,7 @@ export function GenreFilter() {
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
         <Button
+          data-testid="filter-genre"
           variant="outline"
           role="combobox"
           aria-expanded={open}

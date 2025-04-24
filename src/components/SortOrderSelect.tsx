@@ -13,6 +13,7 @@ export function SortOrderSelect() {
   const { setTracksListState } = useTracksListState();
   return (
     <Select
+      data-testid="sort-select"
       onValueChange={(value) => {
         setTracksListState((prev) => ({
           ...prev,

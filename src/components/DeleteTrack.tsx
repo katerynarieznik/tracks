@@ -11,18 +11,11 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import {
-  Dialog,
-  DialogClose,
-  DialogContent,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
+import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 
 import { ToastMessage } from "@/components/ToastMessage";
+import { ConfirmationDialogContent } from "@/components/ConfirmationDialogContent";
 
 interface EditTrackButtonProps {
   id: string;
@@ -70,6 +63,7 @@ export function DeleteTrack({ id, slug }: EditTrackButtonProps) {
         <TooltipTrigger asChild>
           <DialogTrigger asChild>
             <Button
+              data-testid={`delete-track-${id}`}
               variant="secondary"
               size="sm"
               className="hover:text-destructive mt-1"
@@ -83,10 +77,11 @@ export function DeleteTrack({ id, slug }: EditTrackButtonProps) {
         </TooltipContent>
       </Tooltip>
 
-      <DialogContent>
-        <DialogHeader>
-          <DialogTitle>Delete track</DialogTitle>
-        </DialogHeader>
+      <ConfirmationDialogContent
+        title="Delete track"
+        confirmButtonText="Delete track"
+        onConfirm={handleDeleteTrack}
+      >
         <p className="text-secondary-foreground my-4 text-sm">
           This action cannot be undone. This will permanently delete your track{" "}
           <span className="font-bold">
@@ -94,17 +89,7 @@ export function DeleteTrack({ id, slug }: EditTrackButtonProps) {
           </span>{" "}
           and remove it from our servers. Do you want to proceed?
         </p>
-        <DialogFooter>
-          <DialogClose asChild>
-            <Button variant="ghost" type="button">
-              Cancel
-            </Button>
-          </DialogClose>
-          <Button variant="destructive" onClick={handleDeleteTrack}>
-            Delete track
-          </Button>
-        </DialogFooter>
-      </DialogContent>
+      </ConfirmationDialogContent>
     </Dialog>
   );
 }

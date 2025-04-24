@@ -109,7 +109,7 @@ export function CreateTrack() {
               Cancel
             </Button>
           </DialogClose>
-          <Button type="submit" form={formId}>
+          <Button data-testid="submit-button" type="submit" form={formId}>
             Create track
           </Button>
         </DialogFooter>

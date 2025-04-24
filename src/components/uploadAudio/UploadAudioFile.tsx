@@ -100,7 +100,12 @@ export function UploadAudioFile({ id }: { id: string }) {
       <Tooltip>
         <TooltipTrigger asChild>
           <DialogTrigger asChild>
-            <Button variant="outline" size="sm" className="mt-1">
+            <Button
+              data-testid={`upload-track-${id}`}
+              variant="outline"
+              size="sm"
+              className="mt-1"
+            >
               <FilePlus /> Audio
             </Button>
           </DialogTrigger>
@@ -137,7 +142,7 @@ export function UploadAudioFile({ id }: { id: string }) {
                         }}
                       />
                     </FormControl>
-                    <FormMessage />
+                    <FormMessage data-testid="error-audioFile" />
                   </FormItem>
                 )}
               />
@@ -150,7 +155,7 @@ export function UploadAudioFile({ id }: { id: string }) {
               Cancel
             </Button>
           </DialogClose>
-          <Button type="submit" form={formId}>
+          <Button data-testid="submit-button" type="submit" form={formId}>
             Save file
           </Button>
         </DialogFooter>

@@ -27,7 +27,11 @@ export function CreateEditTrackForm({
 
   return (
     <Form {...form}>
-      <form id={formId} onSubmit={form.handleSubmit(onSubmit)}>
+      <form
+        id={formId}
+        data-testid="track-form"
+        onSubmit={form.handleSubmit(onSubmit)}
+      >
         <div className="grid gap-4 py-4">
           <FormField
             control={form.control}
@@ -36,9 +40,13 @@ export function CreateEditTrackForm({
               <FormItem>
                 <FormLabel>Title</FormLabel>
                 <FormControl>
-                  <Input placeholder="Two of Us" {...field} />
+                  <Input
+                    data-testid="input-title"
+                    placeholder="Two of Us"
+                    {...field}
+                  />
                 </FormControl>
-                <FormMessage />
+                <FormMessage data-testid="error-title" />
               </FormItem>
             )}
           />
@@ -49,9 +57,13 @@ export function CreateEditTrackForm({
               <FormItem>
                 <FormLabel>Artist</FormLabel>
                 <FormControl>
-                  <Input placeholder="the Beatles" {...field} />
+                  <Input
+                    data-testid="input-artist"
+                    placeholder="the Beatles"
+                    {...field}
+                  />
                 </FormControl>
-                <FormMessage />
+                <FormMessage data-testid="error-artist" />
               </FormItem>
             )}
           />
@@ -62,9 +74,13 @@ export function CreateEditTrackForm({
               <FormItem>
                 <FormLabel>Album</FormLabel>
                 <FormControl>
-                  <Input placeholder="Let It Be" {...field} />
+                  <Input
+                    data-testid="input-album"
+                    placeholder="Let It Be"
+                    {...field}
+                  />
                 </FormControl>
-                <FormMessage />
+                <FormMessage data-testid="error-album" />
               </FormItem>
             )}
           />
@@ -75,9 +91,9 @@ export function CreateEditTrackForm({
               <FormItem>
                 <FormLabel>Genres</FormLabel>
                 <FormControl>
-                  <GenresSelect {...field} />
+                  <GenresSelect data-testid="genre-selector" {...field} />
                 </FormControl>
-                <FormMessage />
+                <FormMessage data-testid="error-genre" />
               </FormItem>
             )}
           />
@@ -89,11 +105,12 @@ export function CreateEditTrackForm({
                 <FormLabel>Cover</FormLabel>
                 <FormControl>
                   <Input
+                    data-testid="input-cover-image"
                     placeholder="https://example.com/cover.jpg"
                     {...field}
                   />
                 </FormControl>
-                <FormMessage />
+                <FormMessage data-testid="error-cover-image" />
               </FormItem>
             )}
           />

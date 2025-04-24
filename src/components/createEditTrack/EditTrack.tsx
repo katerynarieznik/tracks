@@ -107,7 +107,12 @@ export function EditTrack({ track }: EditTrackProps) {
       <Tooltip>
         <TooltipTrigger asChild>
           <DialogTrigger asChild>
-            <Button variant="outline" size="sm" className="mt-1">
+            <Button
+              data-testid={`edit-track-${track.id}`}
+              variant="outline"
+              size="sm"
+              className="mt-1"
+            >
               <Pencil /> <span className="sr-only">Edit track metadata</span>
             </Button>
           </DialogTrigger>
@@ -133,6 +138,7 @@ export function EditTrack({ track }: EditTrackProps) {
             </Button>
           </DialogClose>
           <Button
+            data-testid="submit-button"
             type="submit"
             form={formId}
             aria-disabled={isSubmitDisabled}

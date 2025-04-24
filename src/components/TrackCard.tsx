@@ -13,7 +13,10 @@ interface TrackCardProps {
 
 export function TrackCard({ track }: TrackCardProps) {
   return (
-    <article className="flex flex-col justify-between space-y-3">
+    <article
+      data-testid={`track-item-${track.id}`}
+      className="flex flex-col justify-between space-y-3"
+    >
       <div className="space-y-3">
         <div className="relative h-fit w-full overflow-hidden rounded-md">
           <img
@@ -31,9 +34,17 @@ export function TrackCard({ track }: TrackCardProps) {
           ) : null}
         </div>
         <div className="space-y-1 text-base">
-          <h3 className="leading-none font-medium">{track.title}</h3>
+          <h2
+            data-testid={`track-item-${track.id}-title`}
+            className="leading-none font-medium"
+          >
+            {track.title}
+          </h2>
           <p className="text-muted-foreground text-sm">
-            {track.artist} {track.album ? `- ${track.album}` : null}
+            <span data-testid={`track-item-${track.id}-artist`}>
+              {track.artist}
+            </span>{" "}
+            {track.album ? `- ${track.album}` : null}
           </p>
           <p className="text-muted-foreground text-sm">
             {track.genres.length > 0 ? track.genres.join(", ") : null}

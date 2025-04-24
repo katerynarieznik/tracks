@@ -14,6 +14,7 @@ export function ArtistFilter() {
         <Input
           id="artistFilter"
           placeholder="Filter by artist"
+          data-testid="filter-artist"
           value={tracksListState.artist}
           onChange={(e) =>
             setTracksListState((prevState) => ({
